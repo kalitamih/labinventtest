@@ -1,0 +1,7 @@
+.buttons {
+  display: flex;
+  flex-direction: row;
+  border: solid 1px #cccccc;
+  grid-area: c;  
+  height: 50px;
+}

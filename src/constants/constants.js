@@ -1,0 +1,10 @@
+export const validOctetsForMask = [0, 128, 192, 224, 240, 248, 252, 254, 255];
+export const amountOctestsInIPv4 = 4;
+export const ethernetHeader = 'Ethernet Settings';
+export const wirelessHeader = 'Wireless Settings';
+export const radioOne = 'Obtain an IP address automatically (DHCP/BootP)';
+export const radioTwo = 'Use the following IP address:';
+export const radioThree = 'Obtain DNS server address automatically';
+export const radioFour = 'Use the following DNS server address:';
+export const checkboxEnableWiFi = 'Enable wifi:';
+export const checkboxEnableSecurity = 'Enable Wireless Security:';

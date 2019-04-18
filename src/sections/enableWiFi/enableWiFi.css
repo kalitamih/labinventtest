@@ -1,0 +1,9 @@
+.wireless-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end; 
+}
+
+.enable-wifi {
+  margin-bottom: 20px;  
+}
