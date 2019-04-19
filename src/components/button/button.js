@@ -5,7 +5,7 @@ import './button.css';
 const Button = (props) => {
   const { text } = props;
   return (
-    <button type="button" className="button">
+    <button type="submit" className="button" form="data">
       {text}
     </button>
   );

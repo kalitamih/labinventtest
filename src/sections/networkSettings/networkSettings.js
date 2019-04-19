@@ -10,7 +10,7 @@ import './networkSettings.css';
 
 const NetworkSettings = (props) => {
   const {
-    network, wifiStatus, dhcpIP, dhcpDNS, setIPdhcp, setDNSdhcp,
+    network, wifiStatus, dhcpIP, dhcpDNS, setIPdhcp, setDNSdhcp, validationData,
   } = props;
   return (
     <div className="networkSettings">
@@ -26,6 +26,7 @@ const NetworkSettings = (props) => {
         dhcp={false}
         wifiStatus={wifiStatus}
         dhcpIP={dhcpIP}
+        validationData={validationData}
       />
       <RadioButtons
         radioOne={radioThree}
@@ -40,6 +41,7 @@ const NetworkSettings = (props) => {
         dhcp={false}
         wifiStatus={wifiStatus}
         dhcpDNS={dhcpDNS}
+        validationData={validationData}
       />
     </div>
   );
@@ -57,6 +59,7 @@ NetworkSettings.propTypes = {
   dhcpDNS: PropTypes.bool.isRequired,
   setIPdhcp: PropTypes.func.isRequired,
   setDNSdhcp: PropTypes.func.isRequired,
+  validationData: PropTypes.bool.isRequired,
 };
 
 

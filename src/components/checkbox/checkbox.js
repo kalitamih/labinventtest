@@ -22,18 +22,16 @@ class Checkbox extends Component {
     const checkboxId = `enable-${purpose}`;
     const { status } = this.state;
     return (
-      <form>
-        <label htmlFor={checkboxId}>
-          <input
-            type="checkbox"
-            id={checkboxId}
-            disabled={!wifiStatus}
-            onChange={this.handleCheckboxChange}
-            checked={status}
-          />
-          <span>{description}</span>
-        </label>
-      </form>
+      <label htmlFor={checkboxId}>
+        <input
+          type="checkbox"
+          id={checkboxId}
+          disabled={!wifiStatus}
+          onChange={this.handleCheckboxChange}
+          checked={status}
+        />
+        <span>{description}</span>
+      </label>
     );
   }
 }

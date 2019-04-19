@@ -8,3 +8,4 @@ export const radioThree = 'Obtain DNS server address automatically';
 export const radioFour = 'Use the following DNS server address:';
 export const checkboxEnableWiFi = 'Enable wifi:';
 export const checkboxEnableSecurity = 'Enable Wireless Security:';
+export const errorIPaddress = 'Incorrect IP-address';

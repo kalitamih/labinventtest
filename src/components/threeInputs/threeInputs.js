@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { validateIP, validateMask } from '../../validation';
+import { errorIPaddress } from '../../constants/constants';
+import Tooltip from '../tooltip';
 import './threeInputs.css';
 
 class ThreeInputs extends Component {
@@ -7,16 +10,29 @@ class ThreeInputs extends Component {
     ip: '',
     subnet: '',
     gateway: '',
+    validIP: true,
+    validSubnet: true,
+    validGateway: true,
+    sameSubnet: true,
   }
 
   handleInputChange = (event) => {
     const { target } = event;
     const { value } = target;
     const { name } = target;
-    console.log(value);
     this.setState({
       [name]: value,
     });
+  }
+
+  validateInputs = () => {
+    const { ip, gateway, subnet } = this.state;
+    if (validateIP(ip)) this.setState({ validIP: true });
+    else this.setState({ validIP: false });
+    if (validateIP(gateway)) this.setState({ validGateway: true });
+    else this.setState({ validGateway: false });
+    if (validateMask(subnet)) this.setState({ validSubnet: true });
+    else this.setState({ validGSubnet: false });
   }
 
   render() {
@@ -40,6 +56,7 @@ class ThreeInputs extends Component {
             disabled={(dhcpIP || !wifiStatus)}
             value={ip}
             onChange={this.handleInputChange}
+            required
           />
         </label>
         <label htmlFor={inputIdSubnet}>
@@ -55,6 +72,7 @@ class ThreeInputs extends Component {
             disabled={(dhcpIP || !wifiStatus)}
             value={subnet}
             onChange={this.handleInputChange}
+            required
           />
         </label>
         <label htmlFor={inputIdGateway}>
@@ -68,6 +86,7 @@ class ThreeInputs extends Component {
             disabled={(dhcpIP || !wifiStatus)}
             value={gateway}
             onChange={this.handleInputChange}
+            required
           />
         </label>
       </div>
@@ -79,6 +98,7 @@ ThreeInputs.propTypes = {
   network: PropTypes.string.isRequired,
   dhcpIP: PropTypes.bool.isRequired,
   wifiStatus: PropTypes.bool.isRequired,
+  validationData: PropTypes.bool.isRequired,
 };
 
 export default ThreeInputs;

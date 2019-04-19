@@ -7,6 +7,13 @@ class RadioButtons extends Component {
     value: '',
   }
 
+  componentDidMount() {
+    const { network, purpose } = this.props;
+    this.setState({
+      value: `${network}-${purpose}-dhcp`,
+    });
+  }
+
   handleDHCP = (value) => {
     const { setDHCP } = this.props;
     if (value.split('-').includes('dhcp')) setDHCP(true);
@@ -16,10 +23,16 @@ class RadioButtons extends Component {
   handleChange = (event) => {
     const { target } = event;
     const { value } = target;
+    console.log(value);
     this.handleDHCP(value);
     this.setState({
       value,
     });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(event.target);
   }
 
   render() {
@@ -31,7 +44,7 @@ class RadioButtons extends Component {
     const inputName = `${network}-${purpose}`;
     const { value } = this.state;
     return (
-      <form className="radiobuttons">
+      <div className="radiobuttons">
         <label htmlFor={inputIdDHCP}>
           <input
             type="radio"
@@ -56,7 +69,7 @@ class RadioButtons extends Component {
           />
           <span>{radioTwo}</span>
         </label>
-      </form>
+      </div>
     );
   }
 }

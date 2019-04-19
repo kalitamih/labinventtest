@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Header from '../../components/header';
 import Security from '../security';
 import EnableWiFi from '../enableWiFi';
@@ -36,6 +37,7 @@ class Wireless extends Component {
 
   render() {
     const { wifi, dhcpIP, dhcpDNS } = this.state;
+    const { validationData } = this.props;
     return (
       <div className="wireless">
         <Header header={wirelessHeader} />
@@ -48,10 +50,15 @@ class Wireless extends Component {
           dhcpDNS={dhcpDNS}
           setIPdhcp={this.setIPdhcp}
           setDNSdhcp={this.setDNSdhcp}
+          validationData={validationData}
         />
       </div>
     );
   }
 }
+
+Wireless.propTypes = {
+  validationData: PropTypes.bool.isRequired,
+};
 
 export default Wireless;
