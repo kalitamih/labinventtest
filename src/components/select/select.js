@@ -1,97 +1,70 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Tooltip from '../tooltip';
+import { errorSelect } from '../../constants';
 import './select.css';
 
 class Select extends PureComponent {
   state = {
-    value: 'initial',
-    valid: true,
+    value: '',
+    open: false,
+    firstLoad: true,
   }
 
-  componentDidMount() {
-    console.log(this.state);
-  }
+  selectRef = React.createRef();
 
   componentDidUpdate() {
-    const { validationData } = this.props;
-    if (validationData) this.validateInputs();
+    const { value } = this.state;
+    const { language } = window.navigator;
+    if (value) this.selectRef.current.setCustomValidity('');
+    else this.selectRef.current.setCustomValidity(errorSelect[language]);
   }
 
   handleChange = (event) => {
     const { target } = event;
     const { value } = target;
-    console.log(value);
+    console.log(target);
     this.setState({
       value,
     });
   }
 
-  validateInputs = () => {
-    const { value } = this.state;
-    if (!['open', 'close', 'initial'].includes(value)) this.setState({ valid: true });
-    else this.setState({ valid: false });
+  clickSelect = () => {
+    this.setState(prevState => (
+      { open: !prevState.open, firstLoad: false }
+    ));
+  }
+
+  blurSelect = () => {
+    this.setState({
+      open: false,
+    });
   }
 
   render() {
     const { wifiStatus } = this.props;
     const array = ['SSID1', 'SSID2', 'SSID4'];
-    const { value, valid } = this.state;
+    const { open, firstLoad } = this.state;
     return (
       <div className="dropdown">
         <span className="name-field">
           Wireless Network Name:
           <span className="asterisk">*</span>
         </span>
-        <ul className="select">
-          <span className="select_label select_label-placeholder">Please select</span>
-          <Tooltip
-            text="Not selected network"
-            valid={valid}
-            input={value}
-            WiFiOFF={!wifiStatus}
-            dhcp={false}
-          />
-          <input
-            className="select_close"
-            type="radio"
-            name="awesomeness"
-            id="close"
-            value="close"
-            disabled={!wifiStatus}
-            checked={value === 'close'}
-            onChange={this.handleChange}
-          />
-          <li className="select_items">
-            <input
-              className="select_expand"
-              value="open"
-              type="radio"
-              name="awesomeness"
-              id="open"
-              disabled={!wifiStatus}
-              checked={value === 'open'}
-              onChange={this.handleChange}
-            />
-            <label className="select_closeLabel" htmlFor="close"></label>
-            <ul className="select_options">
-              { array.map(item => (
-                <li className="select_option" key={item}>
-                  <input
-                    className="select_input"
-                    value={item}
-                    type="radio"
-                    name="awesomeness"
-                    id={item}
-                    onChange={this.handleChange}
-                  />
-                  <label className="select_label" htmlFor={item}>{item}</label>
-                </li>
-              ))}
-            </ul>
-            <label className="select_expandLabel" htmlFor="open"></label>
-          </li>
-        </ul>
+        { firstLoad && <div className="select" />}
+        { open && !firstLoad && <div className="select up" />}
+        { !open && !firstLoad && <div className="select down" />}
+        <select
+          disabled={!wifiStatus}
+          onClick={this.clickSelect}
+          onBlur={this.blurSelect}
+          onChange={this.handleChange}
+          ref={this.selectRef}
+        >
+          <option hidden value="">
+            Выбрать
+          </option>
+          {array.map(item => (<option key={item}>{item}</option>))}
+        </select>
       </div>
     );
   }
@@ -99,7 +72,6 @@ class Select extends PureComponent {
 
 Select.propTypes = {
   wifiStatus: PropTypes.bool.isRequired,
-  validationData: PropTypes.bool.isRequired,
 };
 
 export default Select;

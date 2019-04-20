@@ -1,8 +1,8 @@
 import validateIP from './validateIP';
 import validateMask from './validateMask';
-import validateSameSubnet from './validateSameSubnet';
+import validateSubnet from './validateSubnet';
 import passwordRequirements from './passwordRequirements';
 
 export {
-  validateIP, validateMask, validateSameSubnet, passwordRequirements,
+  validateIP, validateMask, validateSubnet, passwordRequirements,
 };

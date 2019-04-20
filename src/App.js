@@ -9,7 +9,6 @@ class App extends Component {
     validationData: false,
   }
 
-
   componentDidMount() {
     console.log(this.state);
   }
@@ -22,22 +21,22 @@ class App extends Component {
     event.preventDefault();
     this.setState({
       validationData: true,
-    });   
-    const method = 'POST';    
+    });
+    console.log('checkValidity', event.target.checkValidity());
+    const method = 'POST';
     const body = new FormData(event.target);
-    console.log('body', body.entries());
-    for(let pair of body.entries()) {
-     console.log(pair[0]+ ', '+ pair[1]); 
-    }
-    fetch("https://httpbin.org/post", { method, body: body })
+    body.forEach((value, key) => {
+      console.log(key, value);
+    });
+    fetch('https://httpbin.org/post', { method, body })
       .then(res => res.json())
-      .then(data => console.log(data.form));
+      .then(data => console.log(1));
   };
 
   render() {
     const { validationData } = this.state;
     return (
-      <form className="App" id="data" onSubmit={this.handleSubmit} >
+      <form className="App" id="data" onSubmit={this.handleSubmit}>
         <Ethernet validationData={validationData} />
         <Wireless validationData={validationData} />
         <Buttons />

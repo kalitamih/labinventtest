@@ -12,7 +12,10 @@ const EnableWiFi = (props) => {
     <div className="enable-wifi">
       <Checkbox description={checkboxEnableWiFi} setStatus={setStatus} />
       <div className="wireless-name">
-        <Select wifiStatus={wifiStatus} validationData={validationData} />
+        <Select
+          wifiStatus={wifiStatus}
+          validationData={validationData}
+        />
         <RoundButton wifiStatus={wifiStatus} />
       </div>
     </div>

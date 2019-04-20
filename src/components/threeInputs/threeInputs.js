@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { validateIP, validateMask } from '../../validation';
-import { errorIPaddress } from '../../constants';
-import Tooltip from '../tooltip';
+import { validateIP, validateMask, validateSubnet } from '../../validation';
+import {
+  errorIP, errorMask, errorGatewayOne, errorGatewayTwo,
+} from '../../constants';
 import './threeInputs.css';
 
 class ThreeInputs extends PureComponent {
@@ -10,15 +11,23 @@ class ThreeInputs extends PureComponent {
     ip: '',
     mask: '',
     gateway: '',
-    validIP: true,
-    validMask: true,
-    validGateway: true,
-    sameSubnet: true,
   }
 
+  ipRef = React.createRef();
+
+  maskRef = React.createRef();
+
+  gatewayRef = React.createRef();
+
   componentDidUpdate() {
-    const { validationData } = this.props;
-    if (validationData) this.validateInputs();
+    const { ip, gateway, mask } = this.state;
+    this.validateInputs(ip, this.ipRef, validateIP, errorIP);
+    this.validateInputs(mask, this.maskRef, validateMask, errorMask);
+    if (validateIP(gateway)) {
+      this.validateSubnet(ip, mask, gateway, this.gatewayRef, validateSubnet, errorGatewayTwo);
+    } else {
+      this.validateInputs(gateway, this.gatewayRef, validateIP, errorGatewayOne);
+    }
   }
 
   handleInputChange = (event) => {
@@ -30,14 +39,16 @@ class ThreeInputs extends PureComponent {
     });
   }
 
-  validateInputs = () => {
-    const { ip, gateway, mask } = this.state;
-    if (validateIP(ip)) this.setState({ validIP: true });
-    else this.setState({ validIP: false });
-    if (validateIP(gateway)) this.setState({ validGateway: true });
-    else this.setState({ validGateway: false });
-    if (validateMask(mask)) this.setState({ validMask: true });
-    else this.setState({ validMask: false });
+  validateInputs = (value, ref, func, error) => {
+    const { language } = window.navigator;
+    if (!func(value) && value) ref.current.setCustomValidity(error[language]);
+    else ref.current.setCustomValidity('');
+  }
+
+  validateSubnet = (ip, mask, gateway, ref, func, error) => {
+    const { language } = window.navigator;
+    if (!func(ip, mask, gateway) && gateway) ref.current.setCustomValidity(error[language]);
+    else ref.current.setCustomValidity('');
   }
 
   render() {
@@ -45,9 +56,7 @@ class ThreeInputs extends PureComponent {
     const inputIdAddress = `${network}-IP`;
     const inputIdSubnet = `${network}-mask`;
     const inputIdGateway = `${network}-gateway`;
-    const {
-      ip, mask, gateway, validIP, validMask, validGateway, sameSubnet,
-    } = this.state;
+    const { ip, mask, gateway } = this.state;
     return (
       <div className="input-text">
         <label htmlFor={inputIdAddress}>
@@ -56,13 +65,6 @@ class ThreeInputs extends PureComponent {
             &nbsp;
             <span className="asterisk">*</span>
           </span>
-          <Tooltip
-            text={errorIPaddress}
-            valid={validIP}
-            dhcp={dhcpIP}
-            WiFiOFF={!wifiStatus}
-            input={ip}
-          />
           <input
             name="ip"
             type="text"
@@ -70,6 +72,7 @@ class ThreeInputs extends PureComponent {
             disabled={(dhcpIP || !wifiStatus)}
             value={ip}
             onChange={this.handleInputChange}
+            ref={this.ipRef}
             required
           />
         </label>
@@ -79,13 +82,6 @@ class ThreeInputs extends PureComponent {
             &nbsp;
             <span className="asterisk">*</span>
           </span>
-          <Tooltip
-            text={errorIPaddress}
-            valid={validMask}
-            dhcp={dhcpIP}
-            WiFiOFF={!wifiStatus}
-            input={mask}
-          />
           <input
             name="mask"
             type="text"
@@ -93,6 +89,7 @@ class ThreeInputs extends PureComponent {
             disabled={(dhcpIP || !wifiStatus)}
             value={mask}
             onChange={this.handleInputChange}
+            ref={this.maskRef}
             required
           />
         </label>
@@ -100,13 +97,6 @@ class ThreeInputs extends PureComponent {
           <span className="name-field">
             Default Gateway:
           </span>
-          <Tooltip
-            text={errorIPaddress}
-            valid={validGateway}
-            dhcp={dhcpIP}
-            WiFiOFF={!wifiStatus}
-            input={gateway}
-          />
           <input
             name="gateway"
             type="text"
@@ -114,6 +104,7 @@ class ThreeInputs extends PureComponent {
             disabled={(dhcpIP || !wifiStatus)}
             value={gateway}
             onChange={this.handleInputChange}
+            ref={this.gatewayRef}
           />
         </label>
       </div>
@@ -125,7 +116,6 @@ ThreeInputs.propTypes = {
   network: PropTypes.string.isRequired,
   dhcpIP: PropTypes.bool.isRequired,
   wifiStatus: PropTypes.bool.isRequired,
-  validationData: PropTypes.bool.isRequired,
 };
 
 export default ThreeInputs;

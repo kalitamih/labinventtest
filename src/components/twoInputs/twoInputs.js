@@ -1,21 +1,23 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { validateIP } from '../../validation';
-import { errorIPaddress } from '../../constants';
-import Tooltip from '../tooltip';
+import { errorIP } from '../../constants';
 import './twoInputs.css';
 
 class TwoInputs extends PureComponent {
   state = {
     prefered: '',
     alternative: '',
-    preferedDNSValid: true,
-    alternativeDNSValid: true,
   }
 
-  componentDidUpdate() {    
-    const { validationData } = this.props;
-    if (validationData) this.validateInputs();
+  preferedRef = React.createRef();
+
+  alternativeRef = React.createRef();
+
+  componentDidUpdate() {
+    const { prefered, alternative } = this.state;
+    this.validateInputs(prefered, this.preferedRef);
+    this.validateInputs(alternative, this.alternativeRef);
   }
 
   handleInputChange = (event) => {
@@ -27,13 +29,11 @@ class TwoInputs extends PureComponent {
     });
   }
 
-  validateInputs = () => {
-    const { prefered, alternative } = this.state;
-    if (validateIP(prefered)) this.setState({ preferedDNSValid: true });
-    else this.setState({ preferedDNSValid: false });
-    if (validateIP(alternative)) this.setState({ alternativeDNSValid: true });
-    else this.setState({ alternativeDNSValid: false });
-  }
+  validateInputs = (value, ref) => {
+    const { language } = window.navigator;
+    if (!validateIP(value) && value) ref.current.setCustomValidity(errorIP[language]);
+    else ref.current.setCustomValidity('');
+  };
 
   render() {
     const {
@@ -44,8 +44,6 @@ class TwoInputs extends PureComponent {
     const {
       prefered,
       alternative,
-      preferedDNSValid,
-      alternativeDNSValid,
     } = this.state;
     return (
       <div className="input-text">
@@ -55,13 +53,6 @@ class TwoInputs extends PureComponent {
             &nbsp;
             <span className="asterisk">*</span>
           </span>
-          <Tooltip
-            text={errorIPaddress}
-            valid={preferedDNSValid}
-            dhcp={dhcpDNS}
-            WiFiOFF={!wifiStatus}
-            input={prefered}
-          />
           <input
             name="prefered"
             type="text"
@@ -69,6 +60,7 @@ class TwoInputs extends PureComponent {
             disabled={(dhcpDNS || !wifiStatus)}
             value={prefered}
             onChange={this.handleInputChange}
+            ref={this.preferedRef}
             required
           />
         </label>
@@ -76,13 +68,6 @@ class TwoInputs extends PureComponent {
           <span className="name-field">
             Alternative DNS server:
           </span>
-          <Tooltip
-            text={errorIPaddress}
-            valid={alternativeDNSValid}
-            dhcp={dhcpDNS}
-            WiFiOFF={!wifiStatus}
-            input={alternative}
-          />
           <input
             name="alternative"
             type="text"
@@ -90,6 +75,7 @@ class TwoInputs extends PureComponent {
             disabled={(dhcpDNS || !wifiStatus)}
             value={alternative}
             onChange={this.handleInputChange}
+            ref={this.alternativeRef}
           />
         </label>
       </div>
@@ -101,7 +87,6 @@ TwoInputs.propTypes = {
   network: PropTypes.string.isRequired,
   wifiStatus: PropTypes.bool.isRequired,
   dhcpDNS: PropTypes.bool.isRequired,
-  validationData: PropTypes.bool.isRequired,
 };
 
 export default TwoInputs;
