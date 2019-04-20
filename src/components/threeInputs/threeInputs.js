@@ -1,19 +1,24 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { validateIP, validateMask } from '../../validation';
-import { errorIPaddress } from '../../constants/constants';
+import { errorIPaddress } from '../../constants';
 import Tooltip from '../tooltip';
 import './threeInputs.css';
 
-class ThreeInputs extends Component {
+class ThreeInputs extends PureComponent {
   state = {
     ip: '',
-    subnet: '',
+    mask: '',
     gateway: '',
     validIP: true,
-    validSubnet: true,
+    validMask: true,
     validGateway: true,
     sameSubnet: true,
+  }
+
+  componentDidUpdate() {
+    const { validationData } = this.props;
+    if (validationData) this.validateInputs();
   }
 
   handleInputChange = (event) => {
@@ -26,21 +31,23 @@ class ThreeInputs extends Component {
   }
 
   validateInputs = () => {
-    const { ip, gateway, subnet } = this.state;
+    const { ip, gateway, mask } = this.state;
     if (validateIP(ip)) this.setState({ validIP: true });
     else this.setState({ validIP: false });
     if (validateIP(gateway)) this.setState({ validGateway: true });
     else this.setState({ validGateway: false });
-    if (validateMask(subnet)) this.setState({ validSubnet: true });
-    else this.setState({ validGSubnet: false });
+    if (validateMask(mask)) this.setState({ validMask: true });
+    else this.setState({ validMask: false });
   }
 
   render() {
     const { network, dhcpIP, wifiStatus } = this.props;
     const inputIdAddress = `${network}-IP`;
-    const inputIdSubnet = `${network}-subnet`;
+    const inputIdSubnet = `${network}-mask`;
     const inputIdGateway = `${network}-gateway`;
-    const { ip, subnet, gateway } = this.state;
+    const {
+      ip, mask, gateway, validIP, validMask, validGateway, sameSubnet,
+    } = this.state;
     return (
       <div className="input-text">
         <label htmlFor={inputIdAddress}>
@@ -49,6 +56,13 @@ class ThreeInputs extends Component {
             &nbsp;
             <span className="asterisk">*</span>
           </span>
+          <Tooltip
+            text={errorIPaddress}
+            valid={validIP}
+            dhcp={dhcpIP}
+            WiFiOFF={!wifiStatus}
+            input={ip}
+          />
           <input
             name="ip"
             type="text"
@@ -65,12 +79,19 @@ class ThreeInputs extends Component {
             &nbsp;
             <span className="asterisk">*</span>
           </span>
+          <Tooltip
+            text={errorIPaddress}
+            valid={validMask}
+            dhcp={dhcpIP}
+            WiFiOFF={!wifiStatus}
+            input={mask}
+          />
           <input
-            name="subnet"
+            name="mask"
             type="text"
             id={inputIdSubnet}
             disabled={(dhcpIP || !wifiStatus)}
-            value={subnet}
+            value={mask}
             onChange={this.handleInputChange}
             required
           />
@@ -79,6 +100,13 @@ class ThreeInputs extends Component {
           <span className="name-field">
             Default Gateway:
           </span>
+          <Tooltip
+            text={errorIPaddress}
+            valid={validGateway}
+            dhcp={dhcpIP}
+            WiFiOFF={!wifiStatus}
+            input={gateway}
+          />
           <input
             name="gateway"
             type="text"
@@ -86,7 +114,6 @@ class ThreeInputs extends Component {
             disabled={(dhcpIP || !wifiStatus)}
             value={gateway}
             onChange={this.handleInputChange}
-            required
           />
         </label>
       </div>

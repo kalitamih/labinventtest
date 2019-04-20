@@ -5,7 +5,7 @@ import TwoInputs from '../../components/twoInputs';
 import RadioButtons from '../../components/radiobuttons';
 import {
   radioOne, radioTwo, radioThree, radioFour,
-} from '../../constants/constants';
+} from '../../constants';
 import './networkSettings.css';
 
 const NetworkSettings = (props) => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../../components/header';
 import NetworkSettings from '../networkSettings';
-import { ethernetHeader } from '../../constants/constants';
+import { ethernetHeader } from '../../constants';
 import './ethernet.css';
 
 class Ethernet extends Component {

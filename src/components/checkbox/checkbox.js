@@ -29,6 +29,8 @@ class Checkbox extends Component {
           disabled={!wifiStatus}
           onChange={this.handleCheckboxChange}
           checked={status}
+          name={checkboxId}
+          value={status}
         />
         <span>{description}</span>
       </label>

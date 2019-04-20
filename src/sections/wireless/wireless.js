@@ -4,7 +4,7 @@ import Header from '../../components/header';
 import Security from '../security';
 import EnableWiFi from '../enableWiFi';
 import NetworkSettings from '../networkSettings';
-import { wirelessHeader } from '../../constants/constants';
+import { wirelessHeader } from '../../constants';
 import './wireless.css';
 
 class Wireless extends Component {
@@ -41,8 +41,15 @@ class Wireless extends Component {
     return (
       <div className="wireless">
         <Header header={wirelessHeader} />
-        <EnableWiFi wifiStatus={wifi} setStatus={this.setStatusWiFi} />
-        <Security wifiStatus={wifi} />
+        <EnableWiFi
+          wifiStatus={wifi}
+          setStatus={this.setStatusWiFi}
+          validationData={validationData}
+        />
+        <Security
+          wifiStatus={wifi}
+          validationData={validationData}
+        />
         <NetworkSettings
           network="wireless"
           wifiStatus={wifi}

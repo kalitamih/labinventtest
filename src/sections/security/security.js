@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '../../components/checkbox';
 import Input from '../../components/input';
-import { checkboxEnableSecurity } from '../../constants/constants';
+import { checkboxEnableSecurity } from '../../constants';
 import './security.css';
 
 class Security extends Component {
@@ -19,7 +19,7 @@ class Security extends Component {
 
   render() {
     const { security } = this.state;
-    const { wifiStatus } = this.props;
+    const { wifiStatus, validationData } = this.props;
     return (
       <div className="security">
         <Checkbox
@@ -28,7 +28,10 @@ class Security extends Component {
           setStatus={this.setStatusSecurity}
           wifiStatus={wifiStatus}
         />
-        <Input securityStatus={security} wifiStatus={wifiStatus} />
+        <Input
+          securityStatus={security}
+          validationData={validationData}
+        />
       </div>
     );
   }
@@ -36,6 +39,7 @@ class Security extends Component {
 
 Security.propTypes = {
   wifiStatus: PropTypes.bool.isRequired,
+  validationData: PropTypes.bool.isRequired,
 };
 
 export default Security;

@@ -1,10 +1,24 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { passwordRequirements } from '../../validation';
+import Tooltip from '../tooltip';
 import './input.css';
 
-class Input extends Component {
+class Input extends PureComponent {
   state = {
     key: '',
+    validKey: true,
+  }
+
+  componentDidUpdate() {
+    const { validationData } = this.props;
+    if (validationData) this.validateInputs();
+  }
+
+  validateInputs = () => {
+    const { key } = this.state;
+    if (passwordRequirements(key)) this.setState({ validKey: true });
+    else this.setState({ validKey: false });
   }
 
   handleInputChange = (event) => {
@@ -17,8 +31,8 @@ class Input extends Component {
   }
 
   render() {
-    const { securityStatus, wifiStatus } = this.props;
-    const { key } = this.state;
+    const { securityStatus } = this.props;
+    const { key, validKey } = this.state;
     return (
       <div className="input-text">
         <label htmlFor="securityKey">
@@ -27,13 +41,20 @@ class Input extends Component {
             &nbsp;
             <span className="asterisk">*</span>
           </span>
+          <Tooltip
+            text="Not follow password requirements"
+            valid={validKey}
+            input={key}
+            dhcp={false}
+          />
           <input
             name="securitykey"
-            type="text"
+            type="password"
             id="securityKey"
-            disabled={!(securityStatus && wifiStatus)}
+            disabled={!securityStatus}
             value={key}
             onChange={this.handleInputChange}
+            required
           />
         </label>
       </div>
@@ -43,7 +64,7 @@ class Input extends Component {
 
 Input.propTypes = {
   securityStatus: PropTypes.bool.isRequired,
-  wifiStatus: PropTypes.bool.isRequired,
+  validationData: PropTypes.bool.isRequired,
 };
 
 export default Input;

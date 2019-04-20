@@ -1,10 +1,21 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import Tooltip from '../tooltip';
 import './select.css';
 
-class Select extends Component {
+class Select extends PureComponent {
   state = {
-    value: '',
+    value: 'initial',
+    valid: true,
+  }
+
+  componentDidMount() {
+    console.log(this.state);
+  }
+
+  componentDidUpdate() {
+    const { validationData } = this.props;
+    if (validationData) this.validateInputs();
   }
 
   handleChange = (event) => {
@@ -16,10 +27,16 @@ class Select extends Component {
     });
   }
 
+  validateInputs = () => {
+    const { value } = this.state;
+    if (!['open', 'close', 'initial'].includes(value)) this.setState({ valid: true });
+    else this.setState({ valid: false });
+  }
+
   render() {
     const { wifiStatus } = this.props;
     const array = ['SSID1', 'SSID2', 'SSID4'];
-    const { value } = this.state;
+    const { value, valid } = this.state;
     return (
       <div className="dropdown">
         <span className="name-field">
@@ -28,28 +45,35 @@ class Select extends Component {
         </span>
         <ul className="select">
           <span className="select_label select_label-placeholder">Please select</span>
+          <Tooltip
+            text="Not selected network"
+            valid={valid}
+            input={value}
+            WiFiOFF={!wifiStatus}
+            dhcp={false}
+          />
           <input
             className="select_close"
             type="radio"
             name="awesomeness"
-            id="awesomeness-close"
-            value="awesomeness-close"
+            id="close"
+            value="close"
             disabled={!wifiStatus}
-            checked={value === 'awesomeness-close'}
+            checked={value === 'close'}
             onChange={this.handleChange}
           />
           <li className="select_items">
             <input
               className="select_expand"
-              value="awesomeness-opener"
+              value="open"
               type="radio"
               name="awesomeness"
-              id="awesomeness-opener"
+              id="open"
               disabled={!wifiStatus}
-              checked={value === 'awesomeness-opener'}
+              checked={value === 'open'}
               onChange={this.handleChange}
             />
-            <label className="select_closeLabel" htmlFor="awesomeness-close"></label>
+            <label className="select_closeLabel" htmlFor="close"></label>
             <ul className="select_options">
               { array.map(item => (
                 <li className="select_option" key={item}>
@@ -65,7 +89,7 @@ class Select extends Component {
                 </li>
               ))}
             </ul>
-            <label className="select_expandLabel" htmlFor="awesomeness-opener"></label>
+            <label className="select_expandLabel" htmlFor="open"></label>
           </li>
         </ul>
       </div>
@@ -75,7 +99,7 @@ class Select extends Component {
 
 Select.propTypes = {
   wifiStatus: PropTypes.bool.isRequired,
+  validationData: PropTypes.bool.isRequired,
 };
-
 
 export default Select;
