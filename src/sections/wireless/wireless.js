@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Header from '../../components/header';
 import Security from '../security';
 import EnableWiFi from '../enableWiFi';
 import NetworkSettings from '../networkSettings';
-import { wirelessHeader } from '../../constants';
+import { wifiH } from '../../constants';
 import './wireless.css';
 
 class Wireless extends Component {
@@ -15,21 +14,18 @@ class Wireless extends Component {
   }
 
   setStatusWiFi = (wifi) => {
-    console.log('wifi', wifi);
     this.setState({
       wifi,
     });
   }
 
   setIPdhcp = (dhcpIP) => {
-    console.log('dhcpIP', dhcpIP);
     this.setState({
       dhcpIP,
     });
   }
 
   setDNSdhcp = (dhcpDNS) => {
-    console.log('dhcpDNS', dhcpDNS);
     this.setState({
       dhcpDNS,
     });
@@ -37,35 +33,27 @@ class Wireless extends Component {
 
   render() {
     const { wifi, dhcpIP, dhcpDNS } = this.state;
-    const { validationData } = this.props;
     return (
       <div className="wireless">
-        <Header header={wirelessHeader} />
+        <Header header={wifiH} />
         <EnableWiFi
           wifiStatus={wifi}
           setStatus={this.setStatusWiFi}
-          validationData={validationData}
         />
         <Security
           wifiStatus={wifi}
-          validationData={validationData}
         />
         <NetworkSettings
-          network="wireless"
+          network="wifi"
           wifiStatus={wifi}
           dhcpIP={dhcpIP}
           dhcpDNS={dhcpDNS}
           setIPdhcp={this.setIPdhcp}
           setDNSdhcp={this.setDNSdhcp}
-          validationData={validationData}
         />
       </div>
     );
   }
 }
-
-Wireless.propTypes = {
-  validationData: PropTypes.bool.isRequired,
-};
 
 export default Wireless;

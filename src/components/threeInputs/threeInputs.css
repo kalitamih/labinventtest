@@ -15,14 +15,11 @@ input[type=text] {
   height: 35px;
   padding: 12px 5px;
   margin: 8px;  
-  border: 1px solid #8b00ff; 
-}
-
-input[disabled] {
   border: 1px solid #cccccc; 
   background-color: #ffffff;
 }
 
 .asterisk {
   color: #dc143c;
+  font-weight: 700;
 }

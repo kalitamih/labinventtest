@@ -1,8 +1,9 @@
-import validateIP from './validateIP';
-import validateMask from './validateMask';
-import validateSubnet from './validateSubnet';
-import passwordRequirements from './passwordRequirements';
+import checkIP from './checkIP';
+import checkMask from './checkMask';
+import checkSub from './checkSub';
+import checkSel from './checkSel';
+import checkPsw from './checkPsw';
 
 export {
-  validateIP, validateMask, validateSubnet, passwordRequirements,
+  checkIP, checkMask, checkSub, checkPsw, checkSel,
 };

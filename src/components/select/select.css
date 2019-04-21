@@ -1,39 +1,51 @@
 .dropdown {
+  position: relative;
   -webkit-flex-direction: row;
    flex-direction: row; 
    align-items: center; 
+   right: 12px;
 }
 
 select {
   position: relative;
   width: 260px;
-  height: 30px;
+  height: 35px;  
+  padding: 10px;
   cursor: pointer;
-  background-color: white;
-  box-shadow: 0 2px 0 white;
-  border-radius: 2px;
+  border: 1px solid #cccccc; 
+  background-color: white;   
   margin-left: 16px;   
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+  opacity: 0.6;
+  outline-bottom: none;
+}
+
+option[hidden] {
+  opacity: .6;
+}
+
+optgroup{ 
+  font-size: 1.2em;
 }
 
 div.select {
   position: absolute;
-  top: 10px;
+  top: 13px;
   right: 10px;
-  width: 10px;
-  height: 10px;
-  color: #3e3e3e;
+  width: 9px;
+  height: 9px; 
+  color: #cccccc;
   font-size: 1em;
   pointer-events: none;
   z-index: 2;
   animation-duration: .2s;
   animation-fill-mode: forwards;
-  border-right: solid 2px red;
-  border-bottom: solid 2px red;
+  border-right: solid 2px #cccccc;
+  border-bottom: solid 2px #cccccc;
   -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 div.select.down { 

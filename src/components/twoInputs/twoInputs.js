@@ -1,81 +1,73 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { validateIP } from '../../validation';
-import { errorIP } from '../../constants';
+import { checkIP } from '../../validation';
 import './twoInputs.css';
 
 class TwoInputs extends PureComponent {
   state = {
-    prefered: '',
-    alternative: '',
+    main: '',
+    sub: '',
   }
 
-  preferedRef = React.createRef();
+  mainRef = React.createRef();
 
-  alternativeRef = React.createRef();
+  subRef = React.createRef();
 
   componentDidUpdate() {
-    const { prefered, alternative } = this.state;
-    this.validateInputs(prefered, this.preferedRef);
-    this.validateInputs(alternative, this.alternativeRef);
+    const { main, sub } = this.state;
+    this.mainRef.current.setCustomValidity(checkIP(main));
+    this.subRef.current.setCustomValidity(checkIP(sub));
   }
 
   handleInputChange = (event) => {
     const { target } = event;
     const { value } = target;
     const { name } = target;
+    const key = name.split('-')[1];
     this.setState({
-      [name]: value,
+      [key]: value,
     });
   }
 
-  validateInputs = (value, ref) => {
-    const { language } = window.navigator;
-    if (!validateIP(value) && value) ref.current.setCustomValidity(errorIP[language]);
-    else ref.current.setCustomValidity('');
-  };
-
   render() {
-    const {
-      network, wifiStatus, dhcpDNS,
-    } = this.props;
-    const inputIdPreferedDNS = `${network}-prefered-dns`;
-    const inputIdAlternativeDNS = `${network}-alternative-dns`;
-    const {
-      prefered,
-      alternative,
-    } = this.state;
+    const { network, wifiStatus, dhcpDNS } = this.props;
+    const inputMain = `${network}-main-dns`;
+    const inputSub = `${network}-sub-dns`;
+    const { main, sub } = this.state;
+    const divClass = `input-text opacity-${(dhcpDNS || !wifiStatus)}`;
     return (
-      <div className="input-text">
-        <label htmlFor={inputIdPreferedDNS}>
+      <div className={divClass}>
+        <label htmlFor={inputMain}>
           <span className="name-field">
             Prefered DNS server:
             &nbsp;
             <span className="asterisk">*</span>
           </span>
           <input
-            name="prefered"
+            name={inputMain}
             type="text"
-            id={inputIdAlternativeDNS}
+            id={inputMain}
             disabled={(dhcpDNS || !wifiStatus)}
-            value={prefered}
+            noValidate={(dhcpDNS || !wifiStatus)}
+            value={main}
             onChange={this.handleInputChange}
-            ref={this.preferedRef}
+            ref={this.mainRef}
             required
           />
         </label>
-        <label htmlFor={inputIdAlternativeDNS}>
+        <label htmlFor={inputSub}>
           <span className="name-field">
             Alternative DNS server:
           </span>
           <input
-            name="alternative"
+            name={inputSub}
             type="text"
-            id={inputIdPreferedDNS}
+            id={inputSub}
             disabled={(dhcpDNS || !wifiStatus)}
-            value={alternative}
+            noValidate={(dhcpDNS || !wifiStatus)}
+            value={sub}
             onChange={this.handleInputChange}
-            ref={this.alternativeRef}
+            ref={this.subRef}
           />
         </label>
       </div>

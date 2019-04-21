@@ -22,7 +22,7 @@ input[type="checkbox"] ~ span:before {
 }
 
 input[type="checkbox"]:checked ~ span:before {
-  background:  #29d;
+  background: #1aa8eb;
 }
 
 input[type="checkbox"]:checked ~ span:after {

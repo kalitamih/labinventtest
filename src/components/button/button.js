@@ -4,8 +4,10 @@ import './button.css';
 
 const Button = (props) => {
   const { text } = props;
+  const textClass = text;
+  const btnClass = `button ${textClass}`.toLowerCase();
   return (
-    <button type="submit" className="button" form="data">
+    <button type="submit" className={btnClass} form="data">
       {text}
     </button>
   );

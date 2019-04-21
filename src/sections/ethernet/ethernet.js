@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Header from '../../components/header';
 import NetworkSettings from '../networkSettings';
-import { ethernetHeader } from '../../constants';
+import { ethH } from '../../constants';
 import './ethernet.css';
 
 class Ethernet extends Component {
@@ -25,25 +24,18 @@ class Ethernet extends Component {
 
   render() {
     const { dhcpIP, dhcpDNS } = this.state;
-    const { validationData } = this.props;
     return (
       <div className="ethernet">
-        <Header header={ethernetHeader} />
+        <Header header={ethH} />
         <NetworkSettings
           dhcpIP={dhcpIP}
           dhcpDNS={dhcpDNS}
           setIPdhcp={this.setIPdhcp}
           setDNSdhcp={this.setDNSdhcp}
-          validationData={validationData}
         />
       </div>
     );
   }
 }
-
-Ethernet.propTypes = {
-  validationData: PropTypes.bool.isRequired,
-};
-
 
 export default Ethernet;

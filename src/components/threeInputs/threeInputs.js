@@ -1,110 +1,97 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { validateIP, validateMask, validateSubnet } from '../../validation';
-import {
-  errorIP, errorMask, errorGatewayOne, errorGatewayTwo,
-} from '../../constants';
+import { checkIP, checkMask, checkSub } from '../../validation';
 import './threeInputs.css';
 
 class ThreeInputs extends PureComponent {
   state = {
     ip: '',
     mask: '',
-    gateway: '',
+    gtw: '',
   }
 
   ipRef = React.createRef();
 
   maskRef = React.createRef();
 
-  gatewayRef = React.createRef();
+  gtwRef = React.createRef();
 
   componentDidUpdate() {
-    const { ip, gateway, mask } = this.state;
-    this.validateInputs(ip, this.ipRef, validateIP, errorIP);
-    this.validateInputs(mask, this.maskRef, validateMask, errorMask);
-    if (validateIP(gateway)) {
-      this.validateSubnet(ip, mask, gateway, this.gatewayRef, validateSubnet, errorGatewayTwo);
-    } else {
-      this.validateInputs(gateway, this.gatewayRef, validateIP, errorGatewayOne);
-    }
+    const { ip, gtw, mask } = this.state;
+    this.ipRef.current.setCustomValidity(checkIP(ip));
+    this.maskRef.current.setCustomValidity(checkMask(mask));
+    this.gtwRef.current.setCustomValidity(checkIP(gtw));
+    if (!checkIP(gtw) && gtw) this.gtwRef.current.setCustomValidity(checkSub(ip, mask, gtw));
   }
 
   handleInputChange = (event) => {
     const { target } = event;
     const { value } = target;
     const { name } = target;
+    const key = name.split('-')[1];
     this.setState({
-      [name]: value,
+      [key]: value,
     });
-  }
-
-  validateInputs = (value, ref, func, error) => {
-    const { language } = window.navigator;
-    if (!func(value) && value) ref.current.setCustomValidity(error[language]);
-    else ref.current.setCustomValidity('');
-  }
-
-  validateSubnet = (ip, mask, gateway, ref, func, error) => {
-    const { language } = window.navigator;
-    if (!func(ip, mask, gateway) && gateway) ref.current.setCustomValidity(error[language]);
-    else ref.current.setCustomValidity('');
   }
 
   render() {
     const { network, dhcpIP, wifiStatus } = this.props;
-    const inputIdAddress = `${network}-IP`;
-    const inputIdSubnet = `${network}-mask`;
-    const inputIdGateway = `${network}-gateway`;
-    const { ip, mask, gateway } = this.state;
+    const inputIP = `${network}-ip-addr`;
+    const inputMask = `${network}-mask`;
+    const inputGtw = `${network}-gtw`;
+    const { ip, mask, gtw } = this.state;
+    const divClass = `input-text opacity-${(dhcpIP || !wifiStatus)}`;
     return (
-      <div className="input-text">
-        <label htmlFor={inputIdAddress}>
+      <div className={divClass}>
+        <label htmlFor={inputIP}>
           <span className="name-field">
             IP address:
             &nbsp;
             <span className="asterisk">*</span>
           </span>
           <input
-            name="ip"
+            name={inputIP}
             type="text"
-            id={inputIdAddress}
+            id={inputIP}
             disabled={(dhcpIP || !wifiStatus)}
+            noValidate={(dhcpIP || !wifiStatus)}
             value={ip}
             onChange={this.handleInputChange}
             ref={this.ipRef}
             required
           />
         </label>
-        <label htmlFor={inputIdSubnet}>
+        <label htmlFor={inputMask}>
           <span className="name-field">
             Subnet Mask:
             &nbsp;
             <span className="asterisk">*</span>
           </span>
           <input
-            name="mask"
+            name={inputMask}
             type="text"
-            id={inputIdSubnet}
+            id={inputMask}
             disabled={(dhcpIP || !wifiStatus)}
+            noValidate={(dhcpIP || !wifiStatus)}
             value={mask}
             onChange={this.handleInputChange}
             ref={this.maskRef}
             required
           />
         </label>
-        <label htmlFor={inputIdGateway}>
+        <label htmlFor={inputGtw}>
           <span className="name-field">
-            Default Gateway:
+            Default gateway:
           </span>
           <input
-            name="gateway"
+            name={inputGtw}
             type="text"
-            id={inputIdGateway}
+            id={inputGtw}
             disabled={(dhcpIP || !wifiStatus)}
-            value={gateway}
+            noValidate={(dhcpIP || !wifiStatus)}
+            value={gtw}
             onChange={this.handleInputChange}
-            ref={this.gatewayRef}
+            ref={this.gtwRef}
           />
         </label>
       </div>

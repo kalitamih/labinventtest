@@ -1,6 +1,6 @@
 import { amountOctestsInIPv4 } from '../constants';
 
-const validateIP = (ip) => {
+const frmIP = (ip) => {
   const octets = ip.split('.');
   if (octets.length === amountOctestsInIPv4) {
     return octets.every(octet => (
@@ -13,4 +13,4 @@ const validateIP = (ip) => {
   return false;
 };
 
-export default validateIP;
+export default frmIP;

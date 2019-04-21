@@ -1,6 +1,8 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { errorSelect } from '../../constants';
+import RoundButton from '../roundButton';
+import getPoints from '../../wifiPoints';
+import { checkSel } from '../../validation';
 import './select.css';
 
 class Select extends PureComponent {
@@ -8,64 +10,80 @@ class Select extends PureComponent {
     value: '',
     open: false,
     firstLoad: true,
+    points: null,
   }
 
-  selectRef = React.createRef();
+  selRef = React.createRef();
 
   componentDidUpdate() {
     const { value } = this.state;
-    const { language } = window.navigator;
-    if (value) this.selectRef.current.setCustomValidity('');
-    else this.selectRef.current.setCustomValidity(errorSelect[language]);
+    this.selRef.current.setCustomValidity(checkSel(value));
   }
 
   handleChange = (event) => {
     const { target } = event;
-    const { value } = target;
-    console.log(target);
+    const { value } = target;    
     this.setState({
       value,
     });
   }
 
-  clickSelect = () => {
+  clickSel = () => {
     this.setState(prevState => (
       { open: !prevState.open, firstLoad: false }
     ));
   }
 
-  blurSelect = () => {
+  blurSel = () => {
     this.setState({
       open: false,
     });
   }
 
+  handlePoints = () => {
+    const points = getPoints();
+    this.setState({
+      points,
+    });
+  }
+
   render() {
     const { wifiStatus } = this.props;
-    const array = ['SSID1', 'SSID2', 'SSID4'];
-    const { open, firstLoad } = this.state;
+    const { open, firstLoad, points } = this.state;
+    const divClass = `dropdown opacity-${!wifiStatus}`;
     return (
-      <div className="dropdown">
-        <span className="name-field">
-          Wireless Network Name:
-          <span className="asterisk">*</span>
-        </span>
-        { firstLoad && <div className="select" />}
-        { open && !firstLoad && <div className="select up" />}
-        { !open && !firstLoad && <div className="select down" />}
-        <select
-          disabled={!wifiStatus}
-          onClick={this.clickSelect}
-          onBlur={this.blurSelect}
-          onChange={this.handleChange}
-          ref={this.selectRef}
-        >
-          <option hidden value="">
-            Выбрать
-          </option>
-          {array.map(item => (<option key={item}>{item}</option>))}
-        </select>
-      </div>
+      <Fragment>
+        <div className={divClass}>
+          <span className="name-field">
+            Wireless Network Name:
+            &nbsp;
+            <span className="asterisk">*</span>
+          </span>
+          { firstLoad && <div className="select" />}
+          { open && !firstLoad && <div className="select up" />}
+          { !open && !firstLoad && <div className="select down" />}
+          <select
+            name="point"
+            disabled={!wifiStatus}
+            onClick={this.clickSel}
+            onBlur={this.blurSel}
+            onChange={this.handleChange}
+            ref={this.selRef}
+          >
+            <option hidden value="" className="opacity-true">
+              Please selected
+            </option>
+            {points && points.map(item => (
+              <optgroup key={item.name}>
+                <option>
+                  {item.name}
+                </option>
+              </optgroup>
+            ))}
+          </select>
+        </div>
+        <RoundButton wifiStatus={wifiStatus} handlePoints={this.handlePoints} />
+      </Fragment>
     );
   }
 }

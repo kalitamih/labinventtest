@@ -1,7 +1,7 @@
 .button {
-  background-color: #ffffff; 
-  border: 2px solid #008CBA;
-  color: black;
+  background-color: #1aa8eb; 
+  border: 2px solid #1aa8eb;
+  color: #ffffff;
   padding: 2px 4px;
   text-align: center;
   text-decoration: none;
@@ -13,9 +13,14 @@
   cursor: pointer;
   width: 110px;  
   border-radius: 20px;
+  outline: 0;
 }
 
-.button:hover {
-  background-color: #008CBA;
-  color: white;
+.button:active {
+  opacity: .4;
+}
+
+button.cancel {
+  background-color: #ffffff;
+  color: #1aa8eb;
 }

@@ -4,67 +4,55 @@ import './radiobuttons.css';
 
 class RadioButtons extends Component {
   state = {
-    value: '',
-  }
-
-  componentDidMount() {
-    const { network, purpose } = this.props;
-    this.setState({
-      value: `${network}-${purpose}-dhcp`,
-    });
+    value: 'dhcp',
   }
 
   handleDHCP = (value) => {
     const { setDHCP } = this.props;
-    if (value.split('-').includes('dhcp')) setDHCP(true);
+    if (value === 'dhcp') setDHCP(true);
     else setDHCP(false);
   }
 
   handleChange = (event) => {
     const { target } = event;
     const { value } = target;
-    console.log(value);
     this.handleDHCP(value);
     this.setState({
       value,
     });
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(event.target);
-  }
-
   render() {
     const {
       radioOne, radioTwo, network, purpose, wifiStatus,
     } = this.props;
-    const inputIdDHCP = `${network}-${purpose}-dhcp`;
-    const inputIdStatic = `${network}-${purpose}-static`;
+    const inputDHCP = `${network}-${purpose}-dhcp`;
+    const inputStat = `${network}-${purpose}-static`;
     const inputName = `${network}-${purpose}`;
     const { value } = this.state;
+    const divClass = `radiobuttons opacity-${!wifiStatus}`;
     return (
-      <div className="radiobuttons">
-        <label htmlFor={inputIdDHCP}>
+      <div className={divClass}>
+        <label htmlFor={inputDHCP}>
           <input
             type="radio"
-            value={inputIdDHCP}
-            id={inputIdDHCP}
+            value="dhcp"
+            id={inputDHCP}
             name={inputName}
             disabled={!wifiStatus}
-            checked={value === inputIdDHCP}
+            checked={value === 'dhcp'}
             onChange={this.handleChange}
           />
           <span>{radioOne}</span>
         </label>
-        <label htmlFor={inputIdStatic}>
+        <label htmlFor={inputStat}>
           <input
             type="radio"
-            value={inputIdStatic}
-            id={inputIdStatic}
+            value="static"
+            id={inputStat}
             name={inputName}
             disabled={!wifiStatus}
-            checked={value === inputIdStatic}
+            checked={value === 'static'}
             onChange={this.handleChange}
           />
           <span>{radioTwo}</span>

@@ -11,7 +11,6 @@ class Checkbox extends Component {
     const { target } = event;
     const { setStatus } = this.props;
     setStatus(target.checked);
-    console.log(target.checked);
     this.setState({
       status: target.checked,
     });
@@ -19,10 +18,11 @@ class Checkbox extends Component {
 
   render() {
     const { description, purpose, wifiStatus } = this.props;
-    const checkboxId = `enable-${purpose}`;
+    const checkboxId = `${purpose}`;
     const { status } = this.state;
+    const labelClass = `opacity-${!wifiStatus}`;
     return (
-      <label htmlFor={checkboxId}>
+      <label htmlFor={checkboxId} className={labelClass}>
         <input
           type="checkbox"
           id={checkboxId}
