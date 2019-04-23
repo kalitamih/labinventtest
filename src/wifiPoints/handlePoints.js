@@ -5,6 +5,7 @@ const handlePoints = (arr) => {
   const usual = arr.filter(item => !item.favorite);
   favorite.sort(byStrength);
   usual.sort(byStrength);
+  console.log(...favorite, ...usual);
   return [...favorite, ...usual];
 };
 

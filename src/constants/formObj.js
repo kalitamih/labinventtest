@@ -1,4 +1,5 @@
 const formObj = {
+  task: 'labinvent',
   'eth-ip': 'dhcp',
   'eth-ip-addr': '',
   'eth-mask': '',
@@ -11,7 +12,7 @@ const formObj = {
   security: false,
   key: '',
   'wifi-ip': 'dhcp',
-  'wifi-ip-addr': 'dhcp',
+  'wifi-ip-addr': '',
   'wifi-mask': '',
   'wifi-gtw': '',
   'wifi-dns': 'dhcp',

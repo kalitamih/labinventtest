@@ -3,6 +3,7 @@ import CIDR from './CIDR';
 
 export { formObj, CIDR };
 export const amountOctestsInIPv4 = 4;
+export const linkSave = 'http://localhost:3001/form/';
 export const ethH = 'Ethernet Settings';
 export const wifiH = 'Wireless Settings';
 export const radioOne = 'Obtain an IP address automatically (DHCP/BootP)';
@@ -13,6 +14,11 @@ export const enableWiFi = 'Enable wifi:';
 export const enableSec = 'Enable Wireless Security:';
 
 export const reqmts = [/[a-z]/, /[A-Z]/, /\d/, /[!@#$&*]/];
+
+export const headers = {
+  Accept: 'application/json, text/plain, */*',
+  'Content-Type': 'application/json',
+};
 
 export const errIP = {
   'en-EN': 'You filled in an incorrect IP-address',
@@ -42,3 +48,7 @@ export const setPswd = {
   'en-EN': 'You have to set a password',
   'ru-RU': 'Вы должны ввести пароль',
 };
+
+export const wifiPoints = 'http://localhost:3001/points';
+
+export const errFetch = 'There has been a problem with your fetch operation: ';

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import RoundButton from '../roundButton';
 import getPoints from '../../wifiPoints';
 import { checkSel } from '../../validation';
+import { errFetch } from '../../constants';
 import './select.css';
 
 class Select extends PureComponent {
@@ -22,7 +23,7 @@ class Select extends PureComponent {
 
   handleChange = (event) => {
     const { target } = event;
-    const { value } = target;    
+    const { value } = target;
     this.setState({
       value,
     });
@@ -41,10 +42,12 @@ class Select extends PureComponent {
   }
 
   handlePoints = () => {
-    const points = getPoints();
-    this.setState({
-      points,
-    });
+    getPoints()
+      .then(points => this.setState({ points }))
+      .catch((err) => {
+        console.log(`${errFetch}${err}`);
+        alert('Произошла ошибкаю Попробуйте еще раз');
+      });
   }
 
   render() {

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ConfigContext from '../../context';
 import { checkIP } from '../../validation';
 import './twoInputs.css';
 
@@ -12,6 +13,14 @@ class TwoInputs extends PureComponent {
   mainRef = React.createRef();
 
   subRef = React.createRef();
+
+  componentDidMount() {
+    const { network, config } = this.props;
+    this.setState({
+      main: config[`${network}-main-dns`],
+      sub: config[`${network}-sub-dns`],
+    });
+  }
 
   componentDidUpdate() {
     const { main, sub } = this.state;
@@ -81,4 +90,8 @@ TwoInputs.propTypes = {
   dhcpDNS: PropTypes.bool.isRequired,
 };
 
-export default TwoInputs;
+export default props => (
+  <ConfigContext.Consumer>
+    {config => <TwoInputs {...props} config={config} />}
+  </ConfigContext.Consumer>
+);

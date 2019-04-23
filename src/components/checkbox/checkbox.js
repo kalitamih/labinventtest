@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ConfigContext from '../../context';
 import './checkbox.css';
 
 class Checkbox extends Component {
   state = {
     status: false,
+  }
+
+  componentDidMount() {
+    const { purpose, config, setStatus } = this.props;
+    setStatus(config[`${purpose}`]);
+    this.setState({
+      status: config[`${purpose}`],
+    });
   }
 
   handleCheckboxChange = (event) => {
@@ -50,4 +59,8 @@ Checkbox.propTypes = {
   setStatus: PropTypes.func.isRequired,
 };
 
-export default Checkbox;
+export default props => (
+  <ConfigContext.Consumer>
+    {config => <Checkbox {...props} config={config} />}
+  </ConfigContext.Consumer>
+);

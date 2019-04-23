@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import ConfigContext from '../../context';
 import { checkPsw } from '../../validation';
 
 import './input.css';
@@ -10,6 +11,14 @@ class Input extends PureComponent {
   }
 
   inputRef = React.createRef();
+
+  componentDidMount() {
+    const { config } = this.props;
+    const { key } = config;
+    this.setState({
+      key,
+    });
+  }
 
   componentDidUpdate() {
     const { key } = this.state;
@@ -59,4 +68,8 @@ Input.propTypes = {
   wifiStatus: PropTypes.bool.isRequired,
 };
 
-export default Input;
+export default props => (
+  <ConfigContext.Consumer>
+    {config => <Input {...props} config={config} />}
+  </ConfigContext.Consumer>
+);

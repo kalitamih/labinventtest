@@ -1,34 +1,68 @@
 import React, { Component } from 'react';
+import ConfigContext from './context';
 import Ethernet from './sections/ethernet';
 import Wireless from './sections/wireless';
 import Buttons from './sections/buttons';
-import { formObj } from './constants';
+import { formObj, headers, linkSave } from './constants';
 import './App.css';
 
 class App extends Component {
+  state = {
+    config: '',
+  }
+
+  componentDidMount() {
+    fetch(linkSave)
+      .then(response => response.json())
+      .then(data => data.data[0])
+      .then((data) => {
+        const obj = {};
+        const result = { ...obj, ...data };
+        delete result.url;
+        return result;
+      })
+      .then((data) => {
+        this.setState({
+          config: data,
+        });
+      })
+      .catch((error) => {
+        const { message } = error;
+        console.log(`${message}`);
+      });
+  }
+
   handleSubmit = (event) => {
     const obj = {};
     const method = 'POST';
-    const body = new FormData(event.target);
+    const sentObj = new FormData(event.target);
     event.preventDefault();
-    body.forEach((value, key) => {
+    sentObj.forEach((value, key) => {
       obj[key] = value;
     });
-    const sentObj = { ...formObj, ...obj };
+    const body = JSON.stringify({ ...formObj, ...obj });
     console.log(sentObj);
 
-  /*  fetch('https://httpbin.org/post', { method, body })
+    fetch(linkSave, {
+      method,
+      headers,
+      body,
+    })
       .then(res => res.json())
-      .then(data => console.log(1));*/
+      .then(data => console.log(data));
   };
 
   render() {
+    const { config } = this.state;
+    console.log(config);
     return (
-      <form className="App" id="data" onSubmit={this.handleSubmit}>
-        <Ethernet />
-        <Wireless />
-        <Buttons />
-      </form>
+      <ConfigContext.Provider value={config}>
+        <form className="App" id="data" onSubmit={this.handleSubmit}>
+          {config && <Ethernet />}
+          {config && <Wireless />}
+          <Buttons />
+        </form>
+      </ConfigContext.Provider>
     );
   }
 }
