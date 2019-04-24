@@ -49,3 +49,7 @@ button.round:disabled .arrow-round::before {
 button.round:active {
   opacity: .4;
 }
+
+button.round:disabled:active {
+  opacity: 1;
+}

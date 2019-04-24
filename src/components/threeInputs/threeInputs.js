@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import ConfigContext from '../../context';
+import propConf from '../../proptypes';
 import { checkIP, checkMask, checkSub } from '../../validation';
 import './threeInputs.css';
 
@@ -9,6 +10,7 @@ class ThreeInputs extends PureComponent {
     ip: '',
     mask: '',
     gtw: '',
+    reset: false,
   }
 
   ipRef = React.createRef();
@@ -24,6 +26,19 @@ class ThreeInputs extends PureComponent {
       mask: config[`${network}-mask`],
       gtw: config[`${network}-gtw`],
     });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { network, config } = nextProps;
+    if (nextProps.config.reset !== prevState.reset) {
+      return {
+        ip: config[`${network}-ip-addr`],
+        mask: config[`${network}-mask`],
+        gtw: config[`${network}-gtw`],
+        reset: config.reset,
+      };
+    }
+    return null;
   }
 
   componentDidUpdate() {
@@ -45,7 +60,6 @@ class ThreeInputs extends PureComponent {
   }
 
   render() {
-    console.log(this.props);
     const { network, dhcpIP, wifiStatus } = this.props;
     const inputIP = `${network}-ip-addr`;
     const inputMask = `${network}-mask`;
@@ -111,9 +125,10 @@ class ThreeInputs extends PureComponent {
 }
 
 ThreeInputs.propTypes = {
-  network: PropTypes.string.isRequired,
+  network: PropTypes.oneOf(['eth', 'wifi']).isRequired,
   dhcpIP: PropTypes.bool.isRequired,
   wifiStatus: PropTypes.bool.isRequired,
+  config: propConf.isRequired,
 };
 
 export default props => (

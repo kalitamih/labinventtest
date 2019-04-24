@@ -1,0 +1,43 @@
+.message { 
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  animation-name: message;
+  animation-duration: 4s;
+  z-index: 2;
+  font-size: 3em;
+  color: #1aa8eb; 
+}
+
+.message.search {
+  top: -50%;
+  font-size: 1.3em;
+}
+
+.message.err-submit {
+  color: #ff0000;
+  animation-duration: 5s;
+  font-size: 3em;
+}
+
+.message.err-fetch {
+  position: absolute;
+  top: 120%;
+  color: #ff0000;
+  animation-duration: 10s;
+  font-size: 1.2em; 
+}
+
+@keyframes message {
+    0% {
+        opacity: 1;
+    }
+    50% {
+         opacity: .5;
+    }
+    100% {
+         opacity: 0;
+    }
+}

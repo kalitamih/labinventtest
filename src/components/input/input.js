@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import propConf from '../../proptypes';
 import ConfigContext from '../../context';
 import { checkPsw } from '../../validation';
 
@@ -8,6 +9,7 @@ import './input.css';
 class Input extends PureComponent {
   state = {
     key: '',
+    reset: false,
   }
 
   inputRef = React.createRef();
@@ -18,6 +20,18 @@ class Input extends PureComponent {
     this.setState({
       key,
     });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { config } = nextProps;
+    const { key } = config;
+    if (nextProps.config.reset !== prevState.reset) {
+      return {
+        key,
+        reset: config.reset,
+      };
+    }
+    return null;
   }
 
   componentDidUpdate() {
@@ -36,7 +50,8 @@ class Input extends PureComponent {
   render() {
     const { securityStatus, wifiStatus } = this.props;
     const { key } = this.state;
-    const divClass = `input-text opacity-${!securityStatus}`;
+    const status = !securityStatus || !wifiStatus;
+    const divClass = `input-text opacity-${status}`;
     return (
       <div className={divClass}>
         <label htmlFor="securityKey">
@@ -49,8 +64,8 @@ class Input extends PureComponent {
             name="key"
             type="password"
             id="securityKey"
-            disabled={!securityStatus || !wifiStatus}
-            noValidate={!securityStatus || !wifiStatus}
+            disabled={status}
+            noValidate={status}
             value={key}
             onChange={this.handleInputChange}
             autoComplete="on"
@@ -66,6 +81,7 @@ class Input extends PureComponent {
 Input.propTypes = {
   securityStatus: PropTypes.bool.isRequired,
   wifiStatus: PropTypes.bool.isRequired,
+  config: propConf.isRequired,
 };
 
 export default props => (

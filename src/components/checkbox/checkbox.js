@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import propConf from '../../proptypes';
 import ConfigContext from '../../context';
 import './checkbox.css';
 
 class Checkbox extends Component {
   state = {
     status: false,
+    reset: false,
   }
 
   componentDidMount() {
@@ -16,10 +18,22 @@ class Checkbox extends Component {
     });
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { config, purpose, setStatus } = nextProps;
+    if (nextProps.config.reset !== prevState.reset) {
+      setStatus(config[`${purpose}`]);
+      return {
+        status: config[`${purpose}`],
+        reset: config.reset,
+      };
+    }
+    return null;
+  }
+
   handleCheckboxChange = (event) => {
     const { target } = event;
     const { setStatus } = this.props;
-    setStatus(target.checked);
+    setStatus(target.checked);    
     this.setState({
       status: target.checked,
     });
@@ -54,9 +68,10 @@ Checkbox.defaultProps = {
 
 Checkbox.propTypes = {
   description: PropTypes.string.isRequired,
-  purpose: PropTypes.string,
+  purpose: PropTypes.oneOf(['security', 'wifi']),
   wifiStatus: PropTypes.bool,
   setStatus: PropTypes.func.isRequired,
+  config: propConf.isRequired,
 };
 
 export default props => (

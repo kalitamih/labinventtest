@@ -2,7 +2,7 @@ import { errSel } from '../constants';
 
 const checkSel = (value) => {
   const { language } = window.navigator;
-  if (value) return '';
+  if (value !== 'Please selected') return '';
   return errSel[language];
 };
 

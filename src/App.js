@@ -3,12 +3,15 @@ import ConfigContext from './context';
 import Ethernet from './sections/ethernet';
 import Wireless from './sections/wireless';
 import Buttons from './sections/buttons';
+import Loader from './components/loader';
+import Message from './components/message';
 import { formObj, headers, linkSave } from './constants';
 import './App.css';
 
 class App extends Component {
   state = {
     config: '',
+    message: '',
   }
 
   componentDidMount() {
@@ -22,8 +25,9 @@ class App extends Component {
         return result;
       })
       .then((data) => {
+        const config = { ...data, reset: false };
         this.setState({
-          config: data,
+          config,
         });
       })
       .catch((error) => {
@@ -33,34 +37,74 @@ class App extends Component {
   }
 
   handleSubmit = (event) => {
+    const { config } = this.state;
     const obj = {};
     const method = 'POST';
     const sentObj = new FormData(event.target);
     event.preventDefault();
     sentObj.forEach((value, key) => {
-      obj[key] = value;
+      switch (value) {
+        case 'true':
+          obj[key] = true;
+          break;
+        case 'false':
+          obj[key] = false;
+          break;
+        default:
+          obj[key] = value;
+      }
     });
     const body = JSON.stringify({ ...formObj, ...obj });
-    console.log(sentObj);
-
+    const saveConfig = { ...config, ...formObj, ...obj };
+    this.setState({
+      config: saveConfig,
+      message: 'Saving data',
+    });
     fetch(linkSave, {
       method,
       headers,
       body,
     })
       .then(res => res.json())
-      .then(data => console.log(data));
+      .catch((err) => {
+        console.log(`${err}`);
+        this.setState({
+          message: 'Form was send incorrectly. Try again.',
+        });
+      });
   };
 
-  render() {
+  handleCancel = (event) => {
+    event.preventDefault();
     const { config } = this.state;
-    console.log(config);
+    const obj = { ...config, reset: !config.reset };
+    this.setState({
+      config: obj,
+      message: 'Cancel unsaved data',
+    });
+  }
+
+  handleAnimation = () => {
+    this.setState({
+      message: '',
+    });
+  }
+
+  render() {
+    const { config, message } = this.state;
     return (
       <ConfigContext.Provider value={config}>
         <form className="App" id="data" onSubmit={this.handleSubmit}>
+          {message && (
+            <Message
+              message={message}
+              handleAnimation={this.handleAnimation}
+            />
+          )}
+          {!config && <Loader />}
           {config && <Ethernet />}
           {config && <Wireless />}
-          <Buttons />
+          {config && <Buttons handleCancel={this.handleCancel} />}
         </form>
       </ConfigContext.Provider>
     );

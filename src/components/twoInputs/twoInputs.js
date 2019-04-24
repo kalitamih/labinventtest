@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import propConf from '../../proptypes';
 import ConfigContext from '../../context';
 import { checkIP } from '../../validation';
 import './twoInputs.css';
@@ -8,6 +9,7 @@ class TwoInputs extends PureComponent {
   state = {
     main: '',
     sub: '',
+    reset: false,
   }
 
   mainRef = React.createRef();
@@ -20,6 +22,18 @@ class TwoInputs extends PureComponent {
       main: config[`${network}-main-dns`],
       sub: config[`${network}-sub-dns`],
     });
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { network, config } = nextProps;
+    if (nextProps.config.reset !== prevState.reset) {
+      return {
+        main: config[`${network}-main-dns`],
+        sub: config[`${network}-sub-dns`],
+        reset: config.reset,
+      };
+    }
+    return null;
   }
 
   componentDidUpdate() {
@@ -43,7 +57,8 @@ class TwoInputs extends PureComponent {
     const inputMain = `${network}-main-dns`;
     const inputSub = `${network}-sub-dns`;
     const { main, sub } = this.state;
-    const divClass = `input-text opacity-${(dhcpDNS || !wifiStatus)}`;
+    const status = (dhcpDNS || !wifiStatus);
+    const divClass = `input-text opacity-${status}`;
     return (
       <div className={divClass}>
         <label htmlFor={inputMain}>
@@ -56,8 +71,8 @@ class TwoInputs extends PureComponent {
             name={inputMain}
             type="text"
             id={inputMain}
-            disabled={(dhcpDNS || !wifiStatus)}
-            noValidate={(dhcpDNS || !wifiStatus)}
+            disabled={status}
+            noValidate={status}
             value={main}
             onChange={this.handleInputChange}
             ref={this.mainRef}
@@ -72,8 +87,8 @@ class TwoInputs extends PureComponent {
             name={inputSub}
             type="text"
             id={inputSub}
-            disabled={(dhcpDNS || !wifiStatus)}
-            noValidate={(dhcpDNS || !wifiStatus)}
+            disabled={status}
+            noValidate={status}
             value={sub}
             onChange={this.handleInputChange}
             ref={this.subRef}
@@ -85,9 +100,10 @@ class TwoInputs extends PureComponent {
 }
 
 TwoInputs.propTypes = {
-  network: PropTypes.string.isRequired,
+  network: PropTypes.oneOf(['eth', 'wifi']).isRequired,
   wifiStatus: PropTypes.bool.isRequired,
   dhcpDNS: PropTypes.bool.isRequired,
+  config: propConf.isRequired,
 };
 
 export default props => (
