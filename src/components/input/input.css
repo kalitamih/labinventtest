@@ -7,3 +7,6 @@ input[type=password] {
   background-color: #ffffff;
 }
 
+:not(output):-moz-ui-invalid {
+    box-shadow: none;
+}

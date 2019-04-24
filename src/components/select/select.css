@@ -10,7 +10,7 @@ select {
   position: relative;
   width: 260px;
   height: 35px;  
-  padding: 10px;
+  padding-left: 10px;
   cursor: pointer;
   border: 1px solid #cccccc; 
   background-color: white;   
@@ -19,11 +19,6 @@ select {
   -webkit-appearance: none;
   appearance: none;
   opacity: 0.6;
-  outline-bottom: none;
-}
-
-option[hidden] {
-  opacity: .6;
 }
 
 optgroup{ 

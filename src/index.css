@@ -7,8 +7,11 @@
     -khtml-user-select: none; 
     -moz-user-select: none; 
     -ms-user-select: none; 
-    user-select: none; 
+    user-select: none;  
+    outline: 0;  
 }
+
+
 
 body { 
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -28,6 +31,9 @@ label {
   width: max-content;
 }
 
+not(output):-moz-ui-invalid {
+    box-shadow: none;
+}
 
 .opacity-true {
   opacity: .6;
