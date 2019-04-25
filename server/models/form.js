@@ -11,7 +11,12 @@ const formSchema = mongoose.Schema({
   'eth-main-dns': { type: String, required: true },
   'eth-sub-dns': { type: String, required: true },
   wifi: { type: Boolean, required: true },
-  point: { type: String, required: true },
+  point: {
+    favorite: Boolean,
+    name: String,
+    strength: Number,
+    security: [String],
+  },
   security: { type: Boolean, required: true },
   key: { type: String, required: true },
   'wifi-ip': { type: String, required: true },

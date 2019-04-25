@@ -8,7 +8,7 @@
   display: inline-block;
   font-size: 0.8em;
   margin: 8px 10px;
-  -webkit-transition-duration: 0.4s; /* Safari */
+  -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
   cursor: pointer;
   width: 110px;  

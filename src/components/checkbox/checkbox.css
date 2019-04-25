@@ -13,9 +13,9 @@ input[type="checkbox"] ~ span:before {
   position: absolute;  
   width: 18px;
   height: 18px;
-  background: #fff;
+  background: #ffffff;
   margin-right: 5px;
-  border: 1px solid #ccc;  
+  border: 1px solid #cccccc;  
   left: 0;
   top: 4px;  
   transition: all 300ms ease-in-out;
@@ -32,7 +32,7 @@ input[type="checkbox"]:checked ~ span:after {
   top: 5px;
   width: 5px;
   height: 10px;
-  border: 2px solid #fff;
+  border: 2px solid #ffffff;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);

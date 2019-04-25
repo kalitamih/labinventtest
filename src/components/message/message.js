@@ -13,7 +13,10 @@ const Message = (props) => {
     case 'Form was send incorrectly. Try again.':
       divClass = 'message err-submit';
       break;
-    case `${errFetch} Try again.`:
+    case 'You need to select access point':
+      divClass = 'message point';
+      break;
+    case `${errFetch}`:
       divClass = 'message err-fetch';
       break;
     default:

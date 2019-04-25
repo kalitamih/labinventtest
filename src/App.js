@@ -12,6 +12,7 @@ class App extends Component {
   state = {
     config: '',
     message: '',
+    savePoint: null,
   }
 
   componentDidMount() {
@@ -19,16 +20,24 @@ class App extends Component {
       .then(response => response.json())
       .then(data => data.data[0])
       .then((data) => {
-        const obj = {};
-        const result = { ...obj, ...data };
-        delete result.url;
-        return result;
+        if (data) {
+          const obj = {};
+          const result = { ...obj, ...data };
+          delete result.url;
+          return result;
+        }
+        return formObj;
       })
       .then((data) => {
-        const config = { ...data, reset: false };
+        const config = {
+          ...data,
+          reset: false,
+          savePoint: this.saveSltPoint,
+        };
         this.setState({
           config,
         });
+        console.log('config: ', config);
       })
       .catch((error) => {
         const { message } = error;
@@ -37,11 +46,18 @@ class App extends Component {
   }
 
   handleSubmit = (event) => {
-    const { config } = this.state;
+    const { config, savePoint } = this.state;
+    const { point, wifi } = event.target;
     const obj = {};
     const method = 'POST';
     const sentObj = new FormData(event.target);
     event.preventDefault();
+    if (wifi.value && (point.value === '' || point.value === 'closer')) {
+      this.setState({
+        message: 'You need to select access point',
+      });
+      return null;
+    }
     sentObj.forEach((value, key) => {
       switch (value) {
         case 'true':
@@ -54,8 +70,12 @@ class App extends Component {
           obj[key] = value;
       }
     });
-    const body = JSON.stringify({ ...formObj, ...obj });
-    const saveConfig = { ...config, ...formObj, ...obj };
+    console.log(savePoint);
+    const body = JSON.stringify({ ...formObj, ...obj, point: savePoint });
+    const saveConfig = {
+      ...config, ...formObj, ...obj, point: savePoint,
+    };
+    console.log('saveConfig', saveConfig);
     this.setState({
       config: saveConfig,
       message: 'Saving data',
@@ -72,6 +92,7 @@ class App extends Component {
           message: 'Form was send incorrectly. Try again.',
         });
       });
+    return null;
   };
 
   handleCancel = (event) => {
@@ -87,6 +108,13 @@ class App extends Component {
   handleAnimation = () => {
     this.setState({
       message: '',
+    });
+  }
+
+  saveSltPoint = (point) => {
+    console.log('savePoint', point);
+    this.setState({
+      savePoint: point,
     });
   }
 

@@ -8,7 +8,12 @@ const formObj = {
   'eth-main-dns': '',
   'eth-sub-dns': '',
   wifi: false,
-  point: '',
+  point: {
+    favorite: false,
+    name: '',
+    strength: 0,
+    security: [''],
+  },
   security: false,
   key: '',
   'wifi-ip': 'dhcp',

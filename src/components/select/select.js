@@ -76,7 +76,7 @@ class Select extends PureComponent {
       .then(points => this.setState({ points }))
       .catch(() => {
         this.setState({
-          message: `${errFetch} Try again.`,
+          message: `${errFetch}`,
         });
       });
   }

@@ -1,5 +1,12 @@
 import PropTypes from 'prop-types';
 
+const propPoint = PropTypes.shape({
+  favorite: PropTypes.bool,
+  name: PropTypes.string,
+  security: PropTypes.arrayOf(PropTypes.string),
+  strength: PropTypes.number,
+});
+
 const propConf = PropTypes.shape({
   'eth-ip': PropTypes.string,
   'eth-ip-addr': PropTypes.string,
@@ -9,7 +16,7 @@ const propConf = PropTypes.shape({
   'eth-main-dns': PropTypes.string,
   'eth-sub-dns': PropTypes.string,
   wifi: PropTypes.bool,
-  point: PropTypes.string,
+  point: propPoint,
   security: PropTypes.bool,
   key: PropTypes.string,
   'wifi-ip': PropTypes.string,

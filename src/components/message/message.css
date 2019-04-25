@@ -28,6 +28,16 @@
   color: #ff0000;
   animation-duration: 10s;
   font-size: 1.2em; 
+  font-weight: 700;
+}
+
+.message.point {
+  position: absolute;
+  top: 50px;
+  left: 83%;
+  color: #ff0000;
+  animation-duration: 10s;
+  font-size: 1.2em; 
 }
 
 @keyframes message {

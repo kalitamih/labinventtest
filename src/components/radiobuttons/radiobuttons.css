@@ -21,9 +21,9 @@ label input[type="radio"] ~ span:before {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: #fff;
+  background: #ffffff;
   margin-right: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   border-radius: 50%;
   left: 0;
   top: 5px;

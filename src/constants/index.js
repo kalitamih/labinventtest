@@ -51,4 +51,4 @@ export const setPswd = {
 
 export const wifiPoints = 'http://localhost:3001/points';
 
-export const errFetch = 'There has been a problem with fetch.';
+export const errFetch = 'There has been a problem with fetch. Try again.';
