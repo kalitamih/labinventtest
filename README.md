@@ -6,7 +6,7 @@
 6. I use MongoDB Atlas to configuration
 7. I also deploy server part to Heroku and client part to gh-pages
 8. https://kalitamih.github.io/labinventtest/
-9. Password requirements: min 8 symbols, only latin letters, min 1 uppercase letter, special symbols, digitals.
+9. Password requirements: min 8 symbols, only latin letters, min 1 uppercase letter, special symbol, digital.
 
 
 
