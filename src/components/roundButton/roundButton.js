@@ -1,6 +1,7 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Message from '../message';
+import View from './view';
+import { MsgSearchWiFi } from '../../constants';
 import './roundButton.css';
 
 const RoundButton = (props) => {
@@ -12,26 +13,17 @@ const RoundButton = (props) => {
   };
 
   const handleMessage = () => {
-    setMessage('Searching access points');
+    setMessage(MsgSearchWiFi);
   };
 
   return (
-    <Fragment>
-      { message && (
-        <Message
-          message={message}
-          handleAnimation={handleAnimation}
-        />
-      )}
-      <button
-        type="button"
-        className="round"
-        onClick={() => { handlePoints(); handleMessage(); }}
-        disabled={!wifiStatus}
-      >
-        <div className="arrow-round" />
-      </button>
-    </Fragment>
+    <View
+      handlePoints={handlePoints}
+      handleAnimation={handleAnimation}
+      handleMessage={handleMessage}
+      message={message}
+      wifiStatus={wifiStatus}
+    />
   );
 };
 

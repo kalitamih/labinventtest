@@ -1,40 +1,38 @@
 .dropdown {
-  position: relative;
   -webkit-flex-direction: row;
-   flex-direction: row; 
-   align-items: center; 
-   right: 12px;
+  flex-direction: row;
+  align-items: center;
 }
 
-select {
-  position: relative;
+.select {
   width: 260px;
-  height: 35px;  
-  padding-left: 10px;
+  height: 30px;
   cursor: pointer;
-  border: 1px solid #cccccc; 
-  background-color: white;   
-  margin-left: 16px;   
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  opacity: 0.6;
+  border-radius: 2px;
+  margin-left: 16px;
 }
 
-optgroup{ 
-  font-size: 1.2em;
+.select_expand {
+  visibility: hidden;
+  width: 0;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -2;
+  background-color:transparent;
 }
 
-div.select {
+.arrow {
   position: absolute;
   top: 13px;
-  right: 10px;
+  right: 85px;
   width: 9px;
   height: 9px; 
   color: #cccccc;
   font-size: 1em;
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
   animation-duration: .2s;
   animation-fill-mode: forwards;
   border-right: solid 2px #cccccc;
@@ -43,36 +41,128 @@ div.select {
   transform: rotate(45deg);
 }
 
-div.select.down { 
+.arrow.down { 
     animation-name: down-to-up; 
     -webkit-transform: rotate(-135deg);
     transform: rotate(-135deg);   
 }
 
-div.select.up {   
+.arrow.up {   
     animation-name: up-to-down;    
 }
 
-/* Safari 4.0 - 8.0 */
+.select_expandLabel {
+  display: block;
+  width: 100%;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.select_close {
+  display: none;
+}
+
+.select_closeLabel {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+.select_items {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  border-radius: 2px;
+  padding-top: 40px;
+  border: solid 1px #cccccc;
+  z-index: 2;
+}
+
+.select_input {
+  display: none;
+}
+
+.select_label {
+  transition: all 250ms cubic-bezier(.4, .25, .3, 1);
+  display: block;
+  height: 0;
+  font-size: 0.9rem;
+  line-height: 40px;
+  overflow: hidden;
+  color: #3e3e3e;
+  background-color: #ffffff;
+  cursor: pointer;
+  padding-left: 20px;
+}
+
+.select_label-placeholder {
+  height: 40px;
+  vertical-align: middle;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  background-color: transparent;
+  z-index: 4;
+}
+
+.select_expand:checked+.select_closeLabel {
+  display: block;
+  color: transparent;
+}
+
+.select_expand:checked+.select_closeLabel+.select_options .select_label {
+  height: 40px;
+}
+
+.select_expand:checked+.select_closeLabel+.select_options .select_label:hover {
+  background-color: transparent;
+}
+
+.select_expand:checked+.select_closeLabel+.select_options+.select_expandLabel {
+  display: none;
+  color: transparent;
+}
+
+.select_input:checked+.select_label {
+  height: 40px;
+  margin-top: -40px;
+  color: transparent;
+}
+
+input.select_close:disabled~li {
+  border: solid 1px #cccccc;
+  opacity: .6;
+}
+
+.select_items.violet {
+  border: solid 1px #9932CC;
+}
+
 @-webkit-keyframes down-to-up {
   from {transform: rotate(-135deg);}
   to {transform: rotate(45deg);}
 }
 
-/* Standard syntax */
 @keyframes down-to-up {
   from {transform: rotate(-135deg);}
   to {transform: rotate(45deg);}
 }
 
-
-/* Safari 4.0 - 8.0 */
 @-webkit-keyframes up-to-down {
   from {transform: rotate(45deg);}
   to {transform: rotate(-135deg);}
 }
 
-/* Standard syntax */
 @keyframes up-to-down {
   from {transform: rotate(45deg);}
   to {transform: rotate(-135deg);}

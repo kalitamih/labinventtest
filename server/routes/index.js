@@ -4,6 +4,10 @@ const router = express.Router();
 
 const Form = require('../models/form');
 
+const constants = require('../constants');
+
+const { LinkFormData } = constants;
+
 router.get('/', (req, res) => {
   Form.find({ task: 'labinvent' })
     .exec()
@@ -32,7 +36,7 @@ router.get('/', (req, res) => {
             url: {
               request: {
                 type: 'GET',
-                url: 'http://localhost:3001/form/',
+                url: LinkFormData,
               },
             },
           })),
@@ -82,7 +86,7 @@ router.post('/', (req, res) => {
           result: upsertData,
           request: {
             type: 'POST',
-            url: 'http://localhost:3001/form/',
+            url: LinkFormData,
           },
         },
       });

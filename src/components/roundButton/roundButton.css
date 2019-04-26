@@ -1,5 +1,6 @@
 button.round {  
-  position: relative;  
+  position: relative;
+  top: 5px;  
   width: 27px;
   height: 27px;
   border: solid 2px #2299dd;

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import propConf from '../../proptypes';
+import View from './view';
+import { propConf } from '../../proptypes';
 import ConfigContext from '../../context';
 import { checkIP } from '../../validation';
-import './twoInputs.css';
 
 class TwoInputs extends PureComponent {
   state = {
@@ -54,47 +54,18 @@ class TwoInputs extends PureComponent {
 
   render() {
     const { network, wifiStatus, dhcpDNS } = this.props;
-    const inputMain = `${network}-main-dns`;
-    const inputSub = `${network}-sub-dns`;
     const { main, sub } = this.state;
-    const status = (dhcpDNS || !wifiStatus);
-    const divClass = `input-text opacity-${status}`;
     return (
-      <div className={divClass}>
-        <label htmlFor={inputMain}>
-          <span className="name-field">
-            Prefered DNS server:
-            &nbsp;
-            <span className="asterisk">*</span>
-          </span>
-          <input
-            name={inputMain}
-            type="text"
-            id={inputMain}
-            disabled={status}
-            noValidate={status}
-            value={main}
-            onChange={this.handleInputChange}
-            ref={this.mainRef}
-            required
-          />
-        </label>
-        <label htmlFor={inputSub}>
-          <span className="name-field">
-            Alternative DNS server:
-          </span>
-          <input
-            name={inputSub}
-            type="text"
-            id={inputSub}
-            disabled={status}
-            noValidate={status}
-            value={sub}
-            onChange={this.handleInputChange}
-            ref={this.subRef}
-          />
-        </label>
-      </div>
+      <View
+        network={network}
+        main={main}
+        sub={sub}
+        dhcpDNS={dhcpDNS}
+        wifiStatus={wifiStatus}
+        handleInputChange={this.handleInputChange}
+        mainRef={this.mainRef}
+        subRef={this.subRef}
+      />
     );
   }
 }

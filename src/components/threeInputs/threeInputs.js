@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import View from './view';
 import ConfigContext from '../../context';
-import propConf from '../../proptypes';
+import { propConf } from '../../proptypes';
 import { checkIP, checkMask, checkSub } from '../../validation';
 import './threeInputs.css';
 
@@ -43,9 +44,9 @@ class ThreeInputs extends PureComponent {
 
   componentDidUpdate() {
     const { ip, gtw, mask } = this.state;
-    this.ipRef.current.setCustomValidity(checkIP(ip));
+    this.ipRef.current.setCustomValidity(checkIP(ip, true));
     this.maskRef.current.setCustomValidity(checkMask(mask));
-    this.gtwRef.current.setCustomValidity(checkIP(gtw));
+    this.gtwRef.current.setCustomValidity(checkIP(gtw, false));
     if (!checkIP(gtw) && gtw) this.gtwRef.current.setCustomValidity(checkSub(ip, mask, gtw));
   }
 
@@ -61,65 +62,20 @@ class ThreeInputs extends PureComponent {
 
   render() {
     const { network, dhcpIP, wifiStatus } = this.props;
-    const inputIP = `${network}-ip-addr`;
-    const inputMask = `${network}-mask`;
-    const inputGtw = `${network}-gtw`;
     const { ip, mask, gtw } = this.state;
-    const divClass = `input-text opacity-${(dhcpIP || !wifiStatus)}`;
     return (
-      <div className={divClass}>
-        <label htmlFor={inputIP}>
-          <span className="name-field">
-            IP address:
-            &nbsp;
-            <span className="asterisk">*</span>
-          </span>
-          <input
-            name={inputIP}
-            type="text"
-            id={inputIP}
-            disabled={(dhcpIP || !wifiStatus)}
-            noValidate={(dhcpIP || !wifiStatus)}
-            value={ip}
-            onChange={this.handleInputChange}
-            ref={this.ipRef}
-            required
-          />
-        </label>
-        <label htmlFor={inputMask}>
-          <span className="name-field">
-            Subnet Mask:
-            &nbsp;
-            <span className="asterisk">*</span>
-          </span>
-          <input
-            name={inputMask}
-            type="text"
-            id={inputMask}
-            disabled={(dhcpIP || !wifiStatus)}
-            noValidate={(dhcpIP || !wifiStatus)}
-            value={mask}
-            onChange={this.handleInputChange}
-            ref={this.maskRef}
-            required
-          />
-        </label>
-        <label htmlFor={inputGtw}>
-          <span className="name-field">
-            Default gateway:
-          </span>
-          <input
-            name={inputGtw}
-            type="text"
-            id={inputGtw}
-            disabled={(dhcpIP || !wifiStatus)}
-            noValidate={(dhcpIP || !wifiStatus)}
-            value={gtw}
-            onChange={this.handleInputChange}
-            ref={this.gtwRef}
-          />
-        </label>
-      </div>
+      <View
+        network={network}
+        ip={ip}
+        mask={mask}
+        gtw={gtw}
+        dhcpIP={dhcpIP}
+        wifiStatus={wifiStatus}
+        handleInputChange={this.handleInputChange}
+        ipRef={this.ipRef}
+        maskRef={this.maskRef}
+        gtwRef={this.gtwRef}
+      />
     );
   }
 }

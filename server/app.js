@@ -7,7 +7,11 @@ const app = express();
 
 const form = require('./routes');
 
-mongoose.connect('mongodb+srv://mongodb:RSSschool@rss-game-dsakp.mongodb.net/test?retryWrites=true', { useNewUrlParser: true });
+const constants = require('./constants');
+
+const { LinkMongoDB } = constants;
+
+mongoose.connect(LinkMongoDB, { useNewUrlParser: true });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

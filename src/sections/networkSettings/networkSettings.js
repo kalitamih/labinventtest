@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ThreeInputs from '../../components/threeInputs';
 import TwoInputs from '../../components/twoInputs';
-import RadioButtons from '../../components/radiobuttons';
+import Radio from '../../components/radio';
 import {
   radioOne, radioTwo, radioThree, radioFour,
 } from '../../constants';
-import './networkSettings.css';
 
 const NetworkSettings = (props) => {
   const {
@@ -14,7 +13,7 @@ const NetworkSettings = (props) => {
   } = props;
   return (
     <div className="networkSettings">
-      <RadioButtons
+      <Radio
         radioOne={radioOne}
         radioTwo={radioTwo}
         network={network}
@@ -27,7 +26,7 @@ const NetworkSettings = (props) => {
         wifiStatus={wifiStatus}
         dhcpIP={dhcpIP}
       />
-      <RadioButtons
+      <Radio
         radioOne={radioThree}
         radioTwo={radioFour}
         network={network}

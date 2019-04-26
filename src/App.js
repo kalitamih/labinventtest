@@ -37,7 +37,7 @@ class App extends Component {
         this.setState({
           config,
         });
-        console.log('config: ', config);
+        this.saveSltPoint(data.point);
       })
       .catch((error) => {
         const { message } = error;
@@ -52,7 +52,7 @@ class App extends Component {
     const method = 'POST';
     const sentObj = new FormData(event.target);
     event.preventDefault();
-    if (wifi.value && (point.value === '' || point.value === 'closer')) {
+    if (wifi.value === 'true' && (point.value === '' || point.value === 'opener')) {
       this.setState({
         message: 'You need to select access point',
       });
@@ -70,12 +70,10 @@ class App extends Component {
           obj[key] = value;
       }
     });
-    console.log(savePoint);
     const body = JSON.stringify({ ...formObj, ...obj, point: savePoint });
     const saveConfig = {
       ...config, ...formObj, ...obj, point: savePoint,
     };
-    console.log('saveConfig', saveConfig);
     this.setState({
       config: saveConfig,
       message: 'Saving data',
@@ -112,7 +110,6 @@ class App extends Component {
   }
 
   saveSltPoint = (point) => {
-    console.log('savePoint', point);
     this.setState({
       savePoint: point,
     });

@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import propConf from '../../proptypes';
+import { propConf } from '../../proptypes';
 import ConfigContext from '../../context';
-import './radiobuttons.css';
+import RadioView from './radioView';
 
-class RadioButtons extends PureComponent {
+class Radio extends PureComponent {
   state = {
     value: 'dhcp',
     reset: false,
@@ -51,47 +51,26 @@ class RadioButtons extends PureComponent {
     const {
       radioOne, radioTwo, network, purpose, wifiStatus,
     } = this.props;
-    const inputDHCP = `${network}-${purpose}-dhcp`;
-    const inputStat = `${network}-${purpose}-static`;
-    const inputName = `${network}-${purpose}`;
     const { value } = this.state;
-    const divClass = `radiobuttons opacity-${!wifiStatus}`;
     return (
-      <div className={divClass}>
-        <label htmlFor={inputDHCP}>
-          <input
-            type="radio"
-            value="dhcp"
-            id={inputDHCP}
-            name={inputName}
-            disabled={!wifiStatus}
-            checked={value === 'dhcp'}
-            onChange={this.handleChange}
-          />
-          <span>{radioOne}</span>
-        </label>
-        <label htmlFor={inputStat}>
-          <input
-            type="radio"
-            value="static"
-            id={inputStat}
-            name={inputName}
-            disabled={!wifiStatus}
-            checked={value === 'static'}
-            onChange={this.handleChange}
-          />
-          <span>{radioTwo}</span>
-        </label>
-      </div>
+      <RadioView
+        value={value}
+        radioOne={radioOne}
+        radioTwo={radioTwo}
+        network={network}
+        purpose={purpose}
+        handleChange={this.handleChange}
+        wifiStatus={wifiStatus}
+      />
     );
   }
 }
 
-RadioButtons.defaultProps = {
+Radio.defaultProps = {
   purpose: 'ip',
 };
 
-RadioButtons.propTypes = {
+Radio.propTypes = {
   radioOne: PropTypes.string.isRequired,
   radioTwo: PropTypes.string.isRequired,
   network: PropTypes.oneOf(['eth', 'wifi']).isRequired,
@@ -103,6 +82,6 @@ RadioButtons.propTypes = {
 
 export default props => (
   <ConfigContext.Consumer>
-    {config => <RadioButtons {...props} config={config} />}
+    {config => <Radio {...props} config={config} />}
   </ConfigContext.Consumer>
 );

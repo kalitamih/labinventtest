@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import propConf from '../../proptypes';
+import { propConf } from '../../proptypes';
 import ConfigContext from '../../context';
+import InputView from './inputView';
 import { checkPsw } from '../../validation';
-
-import './input.css';
 
 class Input extends PureComponent {
   state = {
-    key: '',
+    pswd: '',
     reset: false,
   }
 
@@ -18,7 +17,7 @@ class Input extends PureComponent {
     const { config } = this.props;
     const { key } = config;
     this.setState({
-      key,
+      pswd: key,
     });
   }
 
@@ -27,7 +26,7 @@ class Input extends PureComponent {
     const { key } = config;
     if (nextProps.config.reset !== prevState.reset) {
       return {
-        key,
+        pass: key,
         reset: config.reset,
       };
     }
@@ -35,45 +34,29 @@ class Input extends PureComponent {
   }
 
   componentDidUpdate() {
-    const { key } = this.state;
-    this.inputRef.current.setCustomValidity(checkPsw(key));
+    const { pswd } = this.state;
+    this.inputRef.current.setCustomValidity(checkPsw(pswd));
   }
 
   handleInputChange = (event) => {
     const { target } = event;
     const { value } = target;
     this.setState({
-      key: value,
+      pswd: value,
     });
   }
 
   render() {
     const { securityStatus, wifiStatus } = this.props;
-    const { key } = this.state;
-    const status = !securityStatus || !wifiStatus;
-    const divClass = `input-text opacity-${status}`;
+    const { pswd } = this.state;
     return (
-      <div className={divClass}>
-        <label htmlFor="securityKey">
-          <span className="name-field">
-            Security Key:
-            &nbsp;
-            <span className="asterisk">*</span>
-          </span>
-          <input
-            name="key"
-            type="password"
-            id="securityKey"
-            disabled={status}
-            noValidate={status}
-            value={key}
-            onChange={this.handleInputChange}
-            autoComplete="on"
-            ref={this.inputRef}
-            required
-          />
-        </label>
-      </div>
+      <InputView
+        securityStatus={securityStatus}
+        wifiStatus={wifiStatus}
+        pswd={pswd}
+        handleInputChange={this.handleInputChange}
+        inputRef={this.inputRef}
+      />
     );
   }
 }

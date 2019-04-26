@@ -21,7 +21,7 @@ export const headers = {
 };
 
 export const errIP = {
-  'en-EN': 'You filled in an incorrect IP-address',
+  'en-EN': 'This is an incorrect IP-address',
   'ru-RU': 'Вы ввели некорректный IP-адрес',
 };
 export const errMask = {
@@ -48,7 +48,10 @@ export const setPswd = {
   'en-EN': 'You have to set a password',
   'ru-RU': 'Вы должны ввести пароль',
 };
+export const MsgSearchWiFi = 'Searching access points';
+export const SltMsg = 'Please select';
 
-export const wifiPoints = 'http://localhost:3001/points';
 
-export const errFetch = 'There has been a problem with fetch. Try again.';
+export const WifiPoints = 'http://localhost:3001/points';
+
+export const ErrFetch = 'There has been a problem with fetch. Try again.';

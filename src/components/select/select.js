@@ -1,36 +1,31 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import propConf from '../../proptypes';
+import { propConf } from '../../proptypes';
 import ConfigContext from '../../context';
-import RoundButton from '../roundButton';
 import getPoints from '../../wifiPoints';
-import Message from '../message';
-import { checkSel } from '../../validation';
-import { errFetch } from '../../constants';
-import './select.css';
+import SelectView from './selectView';
+import { ErrFetch, SltMsg } from '../../constants';
 
-class Select extends PureComponent {
+class Select extends Component {
   state = {
-    value: 'Please selected',
-    open: false,
-    firstLoad: true,
-    points: null,
-    reset: false,
+    valueSlt: SltMsg,
+    slt: '',
+    points: [],
     message: '',
+    reset: false,
+    firstLoad: true,
   }
-
-  selRef = React.createRef();
 
   componentDidMount() {
     const { config } = this.props;
     const { point } = config;
-    if (point) {
+    const array = [];
+    if (point.name) {
+      array.push(point);
       this.setState({
-        value: point,
-      });
-    } else {
-      this.setState({
-        value: 'Please selected',
+        points: array,
+        valueSlt: point.name,
+        slt: point.name,
       });
     }
   }
@@ -39,36 +34,39 @@ class Select extends PureComponent {
     const { config } = nextProps;
     if (nextProps.config.reset !== prevState.reset) {
       return {
-        value: 'Please selected',
+        valueSlt: SltMsg,
         reset: config.reset,
       };
     }
     return null;
   }
 
-  componentDidUpdate() {
-    const { value } = this.state;
-    this.selRef.current.setCustomValidity(checkSel(value));
-  }
-
-  handleChange = (event) => {
+  handleChange = (event) => {    
+    const { points } = this.state;
+    const { config } = this.props;
+    const { savePoint } = config;
     const { target } = event;
     const { value } = target;
-    this.setState({
-      value,
-    });
-  }
-
-  clickSel = () => {
-    this.setState(prevState => (
-      { open: !prevState.open, firstLoad: false }
-    ));
-  }
-
-  blurSel = () => {
-    this.setState({
-      open: false,
-    });
+    if ((value === 'closer')) {
+      this.setState({
+        valueSlt: SltMsg,
+        slt: SltMsg,
+        firstLoad: false,
+      });
+    } else if (value !== 'opener') {
+      this.setState({
+        valueSlt: value,
+        slt: value,
+        firstLoad: false,
+      });
+    } else {
+      this.setState({
+        valueSlt: SltMsg,
+        slt: 'opener',
+        firstLoad: false,
+      });
+    }
+    savePoint(points.filter(item => item.name === value)[0]);
   }
 
   handlePoints = () => {
@@ -76,7 +74,7 @@ class Select extends PureComponent {
       .then(points => this.setState({ points }))
       .catch(() => {
         this.setState({
-          message: `${errFetch}`,
+          message: `${ErrFetch}`,
         });
       });
   }
@@ -90,49 +88,24 @@ class Select extends PureComponent {
   render() {
     const { wifiStatus } = this.props;
     const {
-      open, firstLoad, points, value, message,
+      valueSlt, slt, message, points, firstLoad,
     } = this.state;
-    const divClass = `dropdown opacity-${!wifiStatus}`;
+    const liClass = (slt === 'opener') ? 'select_items violet' : 'select_items';
+    let arrowClass = (slt === 'opener') ? 'arrow up' : 'arrow down';
+    if (firstLoad) arrowClass = 'arrow';    
     return (
-      <Fragment>
-        {message && (
-          <Message
-            message={message}
-            handleAnimation={this.handleAnimation}
-          />
-        )}
-        <div className={divClass}>
-          <span className="name-field">
-            Wireless Network Name:
-            &nbsp;
-            <span className="asterisk">*</span>
-          </span>
-          { firstLoad && <div className="select" />}
-          { open && !firstLoad && <div className="select up" />}
-          { !open && !firstLoad && <div className="select down" />}
-          <select
-            name="point"
-            disabled={!wifiStatus}
-            onClick={this.clickSel}
-            onBlur={this.blurSel}
-            onChange={this.handleChange}
-            ref={this.selRef}
-            value={value}
-          >
-            <option hidden value={value} className="opacity-true">
-              {value}
-            </option>
-            {points && points.map(item => (
-              <optgroup key={item.name}>
-                <option value={item.name}>
-                  {item.name}
-                </option>
-              </optgroup>
-            ))}
-          </select>
-        </div>
-        <RoundButton wifiStatus={wifiStatus} handlePoints={this.handlePoints} />
-      </Fragment>
+      <SelectView
+        liClass={liClass}
+        arrowClass={arrowClass}
+        message={message}
+        handleAnimation={this.handleAnimation}
+        valueSlt={valueSlt}
+        slt={slt}
+        points={points}
+        handleChange={this.handleChange}
+        wifiStatus={wifiStatus}
+        handlePoints={this.handlePoints}
+      />
     );
   }
 }

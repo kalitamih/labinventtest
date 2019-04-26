@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { errFetch } from '../../constants';
+import { ErrFetch, MsgSearchWiFi } from '../../constants';
 import './message.css';
 
 const Message = (props) => {
   const { message, handleAnimation } = props;
   let divClass;
   switch (message) {
-    case 'Searching access points':
+    case MsgSearchWiFi:
       divClass = 'message search';
       break;
     case 'Form was send incorrectly. Try again.':
@@ -16,7 +16,7 @@ const Message = (props) => {
     case 'You need to select access point':
       divClass = 'message point';
       break;
-    case `${errFetch}`:
+    case `${ErrFetch}`:
       divClass = 'message err-fetch';
       break;
     default:

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Checkbox from '../../components/checkbox';
 import Input from '../../components/input';
 import { enableSec } from '../../constants';
-import './security.css';
 
 class Security extends Component {
   state = {

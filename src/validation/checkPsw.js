@@ -1,11 +1,10 @@
 import { wrongPswd, setPswd } from '../constants';
 import pswdReqmts from './pswdReqmts';
 
-const checkPsw = (psw) => {
-  const { language } = window.navigator;
-  if (!psw) return setPswd[language];
+const checkPsw = (psw) => {  
+  if (!psw) return setPswd['en-EN'];
   if (pswdReqmts(psw)) return '';
-  return wrongPswd[language];
+  return wrongPswd['en-EN'];
 };
 
 export default checkPsw;

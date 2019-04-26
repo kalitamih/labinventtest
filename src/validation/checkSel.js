@@ -1,9 +1,8 @@
 import { errSel } from '../constants';
 
-const checkSel = (value) => {
-  const { language } = window.navigator;
+const checkSel = (value) => {  
   if (value !== 'Please selected') return '';
-  return errSel[language];
+  return errSel['en-EN'];
 };
 
 export default checkSel;

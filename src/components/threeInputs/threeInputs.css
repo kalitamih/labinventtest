@@ -19,6 +19,18 @@ input[type=text] {
   background-color: #ffffff;
 }
 
+input[type=text]:valid {
+  background-color: #ffffff;
+}
+
+input:required:valid {
+  background-color: #ffffff;
+}
+
+input:invalid {
+  background-color: #ffffff;
+}
+
 .asterisk {
   color: #dc143c;
   font-weight: 700;
