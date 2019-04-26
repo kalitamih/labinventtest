@@ -1,4 +1,4 @@
-1. npm install
+1. git clone this folder and npm install
 2. cd server && npm install
 3. cd .. && npm run launch
 4. http://localhost:3000/ - app
