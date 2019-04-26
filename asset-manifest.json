@@ -1,13 +1,13 @@
 {
-  "main.css": "/labinventtest/static/css/main.e56cb22a.chunk.css",
-  "main.js": "/labinventtest/static/js/main.2db6a4aa.chunk.js",
-  "main.js.map": "/labinventtest/static/js/main.2db6a4aa.chunk.js.map",
+  "main.css": "/labinventtest/static/css/main.4a870090.chunk.css",
+  "main.js": "/labinventtest/static/js/main.88f94b52.chunk.js",
+  "main.js.map": "/labinventtest/static/js/main.88f94b52.chunk.js.map",
   "runtime~main.js": "/labinventtest/static/js/runtime~main.6633ec85.js",
   "runtime~main.js.map": "/labinventtest/static/js/runtime~main.6633ec85.js.map",
   "static/js/2.34a40746.chunk.js": "/labinventtest/static/js/2.34a40746.chunk.js",
   "static/js/2.34a40746.chunk.js.map": "/labinventtest/static/js/2.34a40746.chunk.js.map",
   "index.html": "/labinventtest/index.html",
-  "precache-manifest.c092e877540b64e83386b12afbb07f68.js": "/labinventtest/precache-manifest.c092e877540b64e83386b12afbb07f68.js",
+  "precache-manifest.630fa44e3a4ad796dbfd31ec2fde0512.js": "/labinventtest/precache-manifest.630fa44e3a4ad796dbfd31ec2fde0512.js",
   "service-worker.js": "/labinventtest/service-worker.js",
-  "static/css/main.e56cb22a.chunk.css.map": "/labinventtest/static/css/main.e56cb22a.chunk.css.map"
+  "static/css/main.4a870090.chunk.css.map": "/labinventtest/static/css/main.4a870090.chunk.css.map"
 }

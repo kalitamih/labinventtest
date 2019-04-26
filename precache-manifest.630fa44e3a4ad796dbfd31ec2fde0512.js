@@ -4,19 +4,19 @@ self.__precacheManifest = [
     "url": "/labinventtest/static/js/runtime~main.6633ec85.js"
   },
   {
-    "revision": "a86606d053ecd342ebb4",
-    "url": "/labinventtest/static/js/main.2db6a4aa.chunk.js"
+    "revision": "554a05e36d4248b4ef72",
+    "url": "/labinventtest/static/js/main.88f94b52.chunk.js"
   },
   {
     "revision": "98ffda36c1a3c8414489",
     "url": "/labinventtest/static/js/2.34a40746.chunk.js"
   },
   {
-    "revision": "a86606d053ecd342ebb4",
-    "url": "/labinventtest/static/css/main.e56cb22a.chunk.css"
+    "revision": "554a05e36d4248b4ef72",
+    "url": "/labinventtest/static/css/main.4a870090.chunk.css"
   },
   {
-    "revision": "9a5450bfe6f9fe1a7a7c13e977fdd7ff",
+    "revision": "62088780d9668cbfd374be60d5e07680",
     "url": "/labinventtest/index.html"
   }
 ];
