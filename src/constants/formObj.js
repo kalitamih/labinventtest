@@ -1,5 +1,5 @@
 const formObj = {
-  task: 'labinvent',
+  task: 'testask',
   'eth-ip': 'dhcp',
   'eth-ip-addr': '',
   'eth-mask': '',

@@ -9,7 +9,7 @@ const constants = require('../constants');
 const { LinkFormData } = constants;
 
 router.get('/', (req, res) => {
-  Form.find({ task: 'labinvent' })
+  Form.find({ task: 'testtask' })
     .exec()
     .then((docs) => {
       const response = {
@@ -54,7 +54,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   console.log(req.body);
   const form = new Form({
-    task: 'labinvent',
+    task: 'testtask',
     'eth-ip': req.body['eth-ip'],
     'eth-ip-addr': req.body['eth-ip-addr'],
     'eth-mask': req.body['eth-mask'],
@@ -78,7 +78,7 @@ router.post('/', (req, res) => {
   const upsertData = form.toObject();
 
   Form
-    .update({ task: 'labinvent' }, upsertData, { upsert: true })
+    .update({ task: 'testtask' }, upsertData, { upsert: true })
     .then((result) => {
       console.log(result);
       res.status(201).json({

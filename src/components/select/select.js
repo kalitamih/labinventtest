@@ -92,7 +92,7 @@ class Select extends Component {
     } = this.state;
     const liClass = (slt === 'opener') ? 'select_items violet' : 'select_items';
     let arrowClass = (slt === 'opener') ? 'arrow up' : 'arrow down';
-    if (firstLoad) arrowClass = 'arrow';    
+    if (firstLoad) arrowClass = 'arrow';
     return (
       <SelectView
         liClass={liClass}

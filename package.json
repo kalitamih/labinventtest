@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "concurrently": "^4.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -11,6 +12,9 @@
     "redux": "^4.0.1"
   },
   "scripts": {
+    "client": "npm start",
+    "server": "cd server && npm start",
+    "launch": "concurrently - kill-others \"npm run server\" \"npm run client\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
